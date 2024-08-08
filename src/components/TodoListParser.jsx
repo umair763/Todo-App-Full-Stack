@@ -9,7 +9,7 @@ function TodoListParser({ todolist }) {
                 <DisplayTodoList list={list} key={i}/>
             ))}
         </>
-    ); 
+    );  
 }
 
 export default TodoListParser;

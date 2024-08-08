@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import TodoListParser from './components/TodoListParser';
 import AddTask from './components/AddTask';
- 
+  
 const todolist = [
     {
         color: 'red',

@@ -7,7 +7,7 @@ function DisplayTodoList({ list }) {
     function handlemarked() {
         setMarked((show) => !show);
     }
- 
+  
     return (
         <>
             <div className="listbar">
