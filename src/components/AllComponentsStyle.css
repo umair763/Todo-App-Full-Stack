@@ -1,182 +1,217 @@
 @font-face {
-    font-family: 'Caros Light';
-    src: url('https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.eot');
-    src: url('https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.eot?#iefix') format('embedded-opentype'),
-        url('https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.woff2') format('woff2'),
-        url('https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.woff') format('woff'),
-        url('https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.ttf') format('truetype'),
-        url('https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.svg#Caros Light') format('svg');
+	font-family: "Caros Light";
+	src: url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.eot");
+	src: url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.eot?#iefix") format("embedded-opentype"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.woff2") format("woff2"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.woff") format("woff"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.ttf") format("truetype"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.svg#Caros Light") format("svg");
 }
-  
-.listbar {
-    display: grid;
-    width: 70%;
-    padding: 0 15px;
-    font-weight: bold;
 
-    margin-bottom: 8px;
-    margin-left: 15%;
-    margin-right: 15%;
-    border-radius: 15px;
-    justify-content: center;
-    align-items: center;
-    color: rgb(29, 29, 29);
-    background-color: rgba(200, 240, 243, 0.87);
-    /* border-bottom: 5px solid rgba(80, 79, 78, 0.852); */
-    font-family: 'Caros Light';
-    grid-template-rows: 1fr;
-    grid-template-columns: 60px 4fr 1fr;
+.listbar {
+	display: grid;
+	width: 90%;
+	padding: 0 15px;
+	font-weight: bold;
+	margin-bottom: 8px;
+	/* margin-left: 15%;
+	margin-right: 15%; */
+	border-radius: 15px;
+	justify-content: center;
+	align-items: center;
+	color: rgb(29, 29, 29);
+	background-color: rgba(200, 240, 243, 0.87);
+	/* border-bottom: 5px solid rgba(80, 79, 78, 0.852); */
+	font-family: "Caros Light";
+	grid-template-rows: 1fr;
+	grid-template-columns: 60px 4fr 1fr;
+}
+.right-side {
+	padding: 2px;
+	height: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+	margin-right: 32%;
+	border-left: 5px solid white;
+	border-radius: 16px;
 }
 .Addtaskcontainer {
-    display: grid;
-    width: 70%;
-    padding: 0 15px;
-    font-weight: bold;
-    margin-left: 15%;
-    margin-right: 15%;
-    margin-bottom: 2%;
-    border-radius: 15px;
-    color: rgb(29, 29, 29);
-    background-color: rgba(200, 240, 243, 0.87);
-    font-family: 'Caros Light';
-    grid-template-rows: 1fr;
-    grid-template-columns: 80px 2fr 1fr;
+	display: grid;
+	width: 90%;
+	padding: 0 15px;
+	font-weight: bold;
+	/* margin-left: 15%;
+	margin-right: 15%; */
+	margin-bottom: 2%;
+	border-radius: 15px;
+	color: rgb(29, 29, 29);
+	background-color: rgba(200, 240, 243, 0.87);
+	font-family: "Caros Light";
+	grid-template-rows: 1fr;
+	grid-template-columns: 80px 2fr 1fr;
 }
 .searchbar {
-    font-family: 'Caros Light';
-    padding: 16px 15px;
-    background-color: transparent;
-    outline: none;
-    font-size: 16px;
-    border: none;
-    width: 100%; /* Make it take full width of its grid area */
+	font-family: "Caros Light";
+	padding: 16px 15px;
+	background-color: transparent;
+	outline: none;
+	font-size: 16px;
+	border: none;
+	width: 100%; /* Make it take full width of its grid area */
 }
 .sortby {
-    height: 40px;
-    padding: 8px;
-    outline: none;
-    color: rgb(23, 23, 23);
-    background-color: rgba(200, 240, 243, 0.87);
-    border: 2px solid rgba(25, 217, 231, 0.87);
-    border-radius: 15px;
-    margin-top: 6px;
-    margin-left: 100px;
+	height: 40px;
+	padding: 8px;
+	outline: none;
+	color: rgb(23, 23, 23);
+	background-color: rgba(200, 240, 243, 0.87);
+	border: 2px solid rgba(25, 217, 231, 0.87);
+	border-radius: 15px;
+	margin-top: 6px;
+	margin-left: 100px;
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end;
-    width: 70%;
-    padding: 0 15px;
-    font-weight: bold;
-    margin-left: 15%;
-    margin-right: 15%;
-    margin-bottom: 8%;
-    background-color: transparent;
+	display: flex;
+	justify-content: flex-end;
+	width: 90%;
+	padding: 0 15px;
+	font-weight: bold;
+	/* margin-left: 15%;
+	margin-right: 15%; */
+	margin-bottom: 6%;
+	background-color: transparent;
 }
+
 .addbtn {
-    padding: 10px 20px;
-    margin-right: 12px;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Caros Light';
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    /* background: linear-gradient(to bottom right, rgba(0, 225, 255, 0.5), rgba(148, 6, 230, 0.5)); */
-background: linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%);     
+	padding: 10px 20px;
+	margin-right: 12px;
+	border: none;
+	border-radius: 8px;
+	font-family: "Caros Light";
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background: linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%);
 }
 .deletebtn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Caros Light';
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	font-family: "Caros Light";
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
+
+.addtask-form {
+	/* position: absolute;
+	left: 36%;
+	top: 44%;
+	transform: translate(-50%, -50%); */
+	background-color: grey;
+	width: 25%;
+	height: 33%;
+	z-index: 900;
+	padding: 0 15px;
+	margin-left: 15%;
+	margin-right: 15%;
+	border-radius: 15px;
+	color: rgb(29, 29, 29);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	background-color: rgb(117, 165, 236);
+}
+.form-design {
+	font-family: "Caros Light";
+	padding: 14px;
+	display: grid;
+	grid-template-rows: 1fr;
+	row-gap: 12px;
+	grid-template-columns: 200px 1fr;
+}
+
 .strikethough {
-    text-decoration: line-through;
+	text-decoration: line-through;
 }
 .time {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 10px;
-    font-weight: bolder !important;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-right: 10px;
+	font-weight: bolder !important;
 }
 
 .radiored {
-    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
-    -moz-appearance: none; /* Remove default styling in Mozilla browsers */
-    appearance: none; /* Remove default styling in other browsers */
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    outline: none;
-    background-color: rgba(255, 33, 33, 0.849);
-    border-color: rgba(255, 33, 33, 0.849);
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	background-color: rgba(255, 33, 33, 0.849);
+	border-color: rgba(255, 33, 33, 0.849);
 }
 .radioyellow {
-    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
-    -moz-appearance: none; /* Remove default styling in Mozilla browsers */
-    appearance: none; /* Remove default styling in other browsers */
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    outline: none;
-    background-color: rgba(252, 252, 27, 0.89);
-    border-color: rgba(252, 252, 27, 0.89);
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	background-color: rgba(252, 252, 27, 0.89);
+	border-color: rgba(252, 252, 27, 0.89);
 }
 .radiogreen {
-    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
-    -moz-appearance: none; /* Remove default styling in Mozilla browsers */
-    appearance: none; /* Remove default styling in other browsers */
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    outline: none;
-    background-color: rgb(2, 181, 61);
-    border-color: rgb(2, 181, 61);
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	background-color: rgb(2, 181, 61);
+	border-color: rgb(2, 181, 61);
 }
 
 .checkbox {
-    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
-    -moz-appearance: none; /* Remove default styling in Mozilla browsers */
-    appearance: none; /* Remove default styling in other browsers */
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    cursor: pointer;
-    position: relative;
-    border-color: rgba(76, 26, 225, 0.859);
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #ccc;
+	cursor: pointer;
+	position: relative;
+	border-color: rgba(76, 26, 225, 0.859);
 }
 
 .checkbox:checked {
-    background-color: rgba(87, 31, 255, 0.859);
-    border-color: rgba(87, 31, 255, 0.859);
-    position: relative;
+	background-color: rgba(87, 31, 255, 0.859);
+	border-color: rgba(87, 31, 255, 0.859);
+	position: relative;
 }
 
 .checkbox:checked::after {
-    content: '✓'; /* Unicode character for tick mark */
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 15px !important;
-    color: white; /* Adjust the color as needed */
+	content: "✓"; /* Unicode character for tick mark */
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 15px !important;
+	color: white; /* Adjust the color as needed */
 }
