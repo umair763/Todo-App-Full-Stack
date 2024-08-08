@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './AllComponentsStyle.css';
+import './styles/DisplayTodoList.css';
 
 function DisplayTodoList({ list }) {
     const [marked, setMarked] = useState(false);

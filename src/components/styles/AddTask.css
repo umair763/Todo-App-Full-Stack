@@ -1,0 +1,73 @@
+.Addtaskcontainer {
+	display: grid;
+	width: 90%;
+	padding: 0 15px;
+	font-weight: bold;
+	/* margin-left: 15%;
+	margin-right: 15%; */
+	margin-bottom: 2%;
+	border-radius: 15px;
+	color: rgb(29, 29, 29);
+	background-color: rgba(200, 240, 243, 0.87);
+	font-family: "Caros Light";
+	grid-template-rows: 1fr;
+	grid-template-columns: 80px 2fr 1fr;
+}
+.searchbar {
+	font-family: "Caros Light";
+	padding: 16px 15px;
+	background-color: transparent;
+	outline: none;
+	font-size: 16px;
+	border: none;
+	width: 100%; /* Make it take full width of its grid area */
+}
+.sortby {
+	height: 40px;
+	padding: 8px;
+	outline: none;
+	color: rgb(23, 23, 23);
+	background-color: rgba(200, 240, 243, 0.87);
+	border: 2px solid rgba(25, 217, 231, 0.87);
+	border-radius: 15px;
+	margin-top: 6px;
+	margin-left: 100px;
+}
+
+.buttons {
+	display: flex;
+	justify-content: flex-end;
+	width: 90%;
+	padding: 0 15px;
+	font-weight: bold;
+	/* margin-left: 15%;
+	margin-right: 15%; */
+	margin-bottom: 6%;
+	background-color: transparent;
+}
+
+.addbtn {
+	padding: 10px 20px;
+	margin-right: 12px;
+	border: none;
+	border-radius: 8px;
+	font-family: "Caros Light";
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background: linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%);
+}
+.deletebtn {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	font-family: "Caros Light";
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}

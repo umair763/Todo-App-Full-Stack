@@ -1,26 +1,26 @@
 import { useState } from "react";
-import "./AllComponentsStyle.css";
+import "./styles/AddTaskForm.css";
 
 function AddTaskForm() {
 	return (
 		<>
-			<div className="addtask-form">
-				<div className="form-design">
+			<form className="addtask-form">
 
-					<labe>Choose color</labe>
-					<select>
-						<option>red</option>
-						<option>yellow</option>
-						<option>green</option>
-					</select>
+				<labe>Choose color</labe>
+				<select className="addentrysortby">
+					<option>red</option>
+					<option>yellow</option>
+					<option>green</option>
+				</select>
 
-					<labe>Write task</labe>
-					<input type="text" />
+				<labe>Write task</labe>
+				<input type="text" className="writeTask"/>
 
-					<labe>Set time</labe>
-					<input type="date" />
-				</div>
-			</div>
+				<labe>Set time</labe>
+				<input type="date" className="settime" />
+
+				<button className="confirmbtn">Confirm</button>
+			</form>
 		</>
 	);
 }

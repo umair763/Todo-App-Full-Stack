@@ -47,9 +47,8 @@ function App() {
 
 					<div className="right-side">
 						<AddTaskForm />
-						<p>hello</p>
 					</div>
-                    
+
 				</div>
 			</div>
 		</>

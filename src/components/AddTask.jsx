@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './AllComponentsStyle.css';
+import './styles/AddTask.css';
  
 function AddTask() { 
     return (

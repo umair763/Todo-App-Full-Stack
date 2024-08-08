@@ -1,0 +1,92 @@
+.listbar {
+	display: grid;
+	width: 90%;
+	padding: 0 15px;
+	font-weight: bold;
+	margin-bottom: 8px;
+	/* margin-left: 15%;
+	margin-right: 15%; */
+	border-radius: 15px;
+	justify-content: center;
+	align-items: center;
+	color: rgb(29, 29, 29);
+	background-color: rgba(200, 240, 243, 0.87);
+	/* border-bottom: 5px solid rgba(80, 79, 78, 0.852); */
+	font-family: "Caros Light";
+	grid-template-rows: 1fr;
+	grid-template-columns: 60px 4fr 1fr;
+}
+
+
+.radiored {
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	background-color: rgba(255, 33, 33, 0.849);
+	border-color: rgba(255, 33, 33, 0.849);
+}
+.radioyellow {
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	background-color: rgba(252, 252, 27, 0.89);
+	border-color: rgba(252, 252, 27, 0.89);
+}
+.radiogreen {
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	background-color: rgb(2, 181, 61);
+	border-color: rgb(2, 181, 61);
+}
+
+.checkbox {
+	-webkit-appearance: none; /* Remove default styling in WebKit browsers */
+	-moz-appearance: none; /* Remove default styling in Mozilla browsers */
+	appearance: none; /* Remove default styling in other browsers */
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #ccc;
+	cursor: pointer;
+	position: relative;
+	border-color: rgba(76, 26, 225, 0.859);
+}
+
+.checkbox:checked {
+	background-color: rgba(87, 31, 255, 0.859);
+	border-color: rgba(87, 31, 255, 0.859);
+	position: relative;
+}
+
+.checkbox:checked::after {
+	content: "✓"; /* Unicode character for tick mark */
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 15px !important;
+	color: white; /* Adjust the color as needed */
+}
+.strikethough {
+	text-decoration: line-through;
+}
