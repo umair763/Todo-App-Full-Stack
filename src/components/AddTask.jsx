@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './styles/AddTask.css';
- 
-function AddTask() { 
+
+function AddTask({ SetAddTaskbtn, setDeleteTaskbtn }) {
     return (
         <>
             <div className="Addtaskcontainer">
@@ -14,8 +14,12 @@ function AddTask() {
                 </select>
             </div>
             <div className="buttons">
-                <button className='addbtn'>Add Task</button>
-                <button className='deletebtn'>Delete Task</button>
+                <button className="addbtn" onClick={SetAddTaskbtn}>
+                    Add Task
+                </button>
+                <button className="deletebtn" onClick={setDeleteTaskbtn}>
+                    Delete Task
+                </button>
             </div>
         </>
     );
