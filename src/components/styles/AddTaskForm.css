@@ -7,8 +7,8 @@
     display: grid;
     margin-top: 55%;
     width: 130%;
-    grid-template-rows: 2fr 2fr 2fr 2fr;
     grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     font-family: 'Caros Light';
     color: white;
     background-color: rgb(59, 199, 181);
@@ -33,6 +33,7 @@
     border: 2px solid rgb(0, 161, 139);
     color: rgb(19, 19, 19);
 }
+
 .confirmbtn {
     border: none;
     color: white;
@@ -43,5 +44,18 @@
     border-radius: 8px;
     font-family: 'Caros Light';
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #7fe565 0%, #4ba894 100%);
+    background: linear-gradient(135deg, #7fe565 0%, #0d7d65 100%);
+}
+.closebtn {
+    width: 50%;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-family: 'Caros Light';
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ab1a1ac2 0%, #373737ab 100%);
 }

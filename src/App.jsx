@@ -37,27 +37,19 @@ const todolist = [
 ];
 
 function App() {
-    const [addTaskbtn, setAddTaskbtn] = useState(false);
-    const [DeleteTaskbtn, setDeleteTaskbtn] = useState(false);
+    const [isAddFormVisible, setisAddFormVisible] = useState(false);
+    const [isDeleteFormVisible, setisDeleteFormVisible] = useState(false);
 
-    function handleAddTaskbtn() {
-        setAddTaskbtn((x) => !x);
-        addTaskbtn ? setAddTaskbtn(false) : '';
-        console.log(addTaskbtn);
+    function handleisAddFormVisible() {
+        setisAddFormVisible((x) => !x);
+        isDeleteFormVisible ? setisDeleteFormVisible(false) : '';
+        console.log(isAddFormVisible);
     }
 
-    function handleDeleteTaskbtn() {
-        setDeleteTaskbtn((x) => !x);
-        DeleteTaskbtn ? setDeleteTaskbtn(false) : '';
-        console.log(DeleteTaskbtn);
-    }
-
-    function handlesetAddFalse() {
-        setAddTaskbtn(false);
-    }
-
-    function handlesetDeleteFalse() {
-        setDeleteTaskbtn(false);
+    function handleisDeleteFormVisible() {
+        setisDeleteFormVisible((x) => !x);
+        isAddFormVisible ? setisAddFormVisible(false) : '';
+        console.log(isDeleteFormVisible);
     }
 
     return (
@@ -69,15 +61,16 @@ function App() {
                             <h1>Todo App</h1>
                             <h3>To-Do lists help us break life into small steps.</h3>
                         </div>
-                        <AddTask SetAddTaskbtn={handleAddTaskbtn} setDeleteTaskbtn={handleDeleteTaskbtn} />
+                        <AddTask
+                            SetisAddFormVisible={handleisAddFormVisible}
+                            setisDeleteFormVisible={handleisDeleteFormVisible}
+                        />
                         <TodoListParser todolist={todolist} />
                     </div>
 
                     <div className="right-side">
-                        {addTaskbtn ? <AddTaskForm /> : ''}
-                        {DeleteTaskbtn ? <DeleteTaskForm /> : ''}
-                        {/* <AddTaskForm /> */}
-                        {/* <DeleteTaskForm /> */}
+                        {isAddFormVisible ? <AddTaskForm SetisAddFormVisible={handleisAddFormVisible} /> : ''}
+                        {isDeleteFormVisible ? <DeleteTaskForm setisDeleteFormVisible={handleisDeleteFormVisible} /> : ''}
                     </div>
                 </div>
             </div>

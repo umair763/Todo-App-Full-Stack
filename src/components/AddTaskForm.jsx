@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './styles/AddTaskForm.css';
 
-function AddTaskForm() {
+function AddTaskForm({ SetisAddFormVisible }) {
     function handleform(e) {
         e.preventDefault();
     }
@@ -24,8 +24,9 @@ function AddTaskForm() {
                 <label>Set time</label>
                 <input type="time" className="settime" />
 
-                <button className="confirmbtn">
-                    Confirm
+                <button className="confirmbtn">Confirm</button>
+                <button className="closebtn" onClick={SetisAddFormVisible}>
+                    Close
                 </button>
             </form>
         </>

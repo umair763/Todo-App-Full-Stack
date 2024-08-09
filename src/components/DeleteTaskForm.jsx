@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './styles/DeleteTaskForm.css';
 
-function DeleteTaskForm( ) {
+function DeleteTaskForm({ setisDeleteFormVisible }) {
     function handleform(e) {
         e.preventDefault();
     }
@@ -25,8 +25,9 @@ function DeleteTaskForm( ) {
                 <label>Enter time</label>
                 <input type="time" className="settime2" />
 
-                <button className="confirmbtn2" >
-                    Confirm
+                <button className="confirmbtn2">Confirm</button>
+                <button className="closebtnn" onClick={setisDeleteFormVisible}>
+                    Close
                 </button>
             </form>
         </>

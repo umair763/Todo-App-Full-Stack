@@ -8,7 +8,7 @@
 	display: grid;
 	margin-top: 55%;
 	width: 130%;
-	grid-template-rows: 2fr 2fr 2fr 2fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 	grid-template-columns: 1fr 2fr;
 	font-family: "Caros Light";
 	color: white;
@@ -44,5 +44,18 @@
 	border-radius: 8px;
 	font-family: "Caros Light";
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	background: linear-gradient(135deg, rgba(242, 158, 2, 0.882) 0%, #cf2608df 100%);
+	background: linear-gradient(135deg, rgba(242, 158, 2, 0.882) 0%, #cf2608e9 100%);
+}
+.closebtnn {
+    width: 50%;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-family: 'Caros Light';
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ab1a1af2 0%, #454743cf 100%);
 }

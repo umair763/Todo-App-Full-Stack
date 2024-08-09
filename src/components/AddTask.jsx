@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './styles/AddTask.css';
 
-function AddTask({ SetAddTaskbtn, setDeleteTaskbtn }) {
+function AddTask({ SetisAddFormVisible, setisDeleteFormVisible }) {
     return (
         <>
             <div className="Addtaskcontainer">
@@ -14,10 +14,10 @@ function AddTask({ SetAddTaskbtn, setDeleteTaskbtn }) {
                 </select>
             </div>
             <div className="buttons">
-                <button className="addbtn" onClick={SetAddTaskbtn}>
+                <button className="addbtn" onClick={SetisAddFormVisible}>
                     Add Task
                 </button>
-                <button className="deletebtn" onClick={setDeleteTaskbtn}>
+                <button className="deletebtn" onClick={setisDeleteFormVisible}>
                     Delete Task
                 </button>
             </div>
