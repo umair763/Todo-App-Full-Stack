@@ -6,10 +6,11 @@ function TodoListParser({ todolist }) {
     return (
         <>
             {todolist.map((list, i) => (
-                <DisplayTodoList list={list} key={i}/>
+                <DisplayTodoList list={list} key={i} id={i}/>
             ))}
         </>
     );  
 }
 
 export default TodoListParser;
+ 

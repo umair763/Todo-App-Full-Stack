@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './styles/AddTask.css';
 
-function AddTask({ SetisAddFormVisible, setisDeleteFormVisible }) {
+function AddTask({ SetisAddFormVisible, setisDeleteFormVisible, setSort }) {
     return (
         <>
             <div className="Addtaskcontainer">
                 <p>🔴🟡🟢</p>
                 <input type="text" className="searchbar" placeholder="Search..." />
-                <select className="sortby">
+                <select className="sortby" onChange={(e) => setSort(e.target.value)}>
                     <option>Sort by</option>
                     <option>Task</option>
                     <option>Time</option>

@@ -8,37 +8,32 @@ import DeleteTaskForm from './components/DeleteTaskForm';
 const todolist = [
     {
         color: 'red',
-        task: 'work out',
-        date: '13/01/2024',
-        time: '12:00',
+        task: 'Demo Task',
+        date: '2024-8-21',
+        time: '12:00 am',
         status: false,
     },
     {
         color: 'yellow',
-        task: 'Design Team meeting',
-        date: '28/02/2024',
-        time: '11:00',
+        task: 'Demo',
+        date: '2024-8-22',
+        time: '11:00 am',
         status: false,
     },
     {
         color: 'green',
-        task: 'coding',
-        date: '18/03/2024',
-        time: '10:00',
-        status: true,
-    },
-    {
-        color: 'green',
-        task: 'coding',
-        date: '08/04/2024',
-        time: '02:00',
-        status: true,
+        task: 'Task',
+        date: '2024-8-12',
+        time: '04:00 am',
+        status: false,
     },
 ];
 
 function App() {
     const [isAddFormVisible, setisAddFormVisible] = useState(false);
     const [isDeleteFormVisible, setisDeleteFormVisible] = useState(false);
+    const [newtask, setAddNewTask] = useState(todolist);
+    const [sortby, setSortBy] = useState(todolist);
 
     function handleisAddFormVisible() {
         setisAddFormVisible((x) => !x);
@@ -50,6 +45,19 @@ function App() {
         setisDeleteFormVisible((x) => !x);
         isAddFormVisible ? setisAddFormVisible(false) : '';
         console.log(isDeleteFormVisible);
+    }
+
+    function handleAddNewTasks(task) {
+        setAddNewTask((newtask) => [...newtask, task]);
+    }
+
+    function handleDeleteTask(task) {
+        setAddNewTask(newtask.filter((el) => el.task !== task));
+    }
+
+    let sorted;
+    if (sortby === 'Task') {
+        sorted = sortby.slice().sort((a, b) => a.Task.localeCompare(b.Task));
     }
 
     return (
@@ -64,13 +72,25 @@ function App() {
                         <AddTask
                             SetisAddFormVisible={handleisAddFormVisible}
                             setisDeleteFormVisible={handleisDeleteFormVisible}
+                            setSort={setSortBy}
                         />
-                        <TodoListParser todolist={todolist} />
+                        <TodoListParser todolist={newtask} />
                     </div>
 
                     <div className="right-side">
-                        {isAddFormVisible ? <AddTaskForm SetisAddFormVisible={handleisAddFormVisible} /> : ''}
-                        {isDeleteFormVisible ? <DeleteTaskForm setisDeleteFormVisible={handleisDeleteFormVisible} /> : ''}
+                        {isAddFormVisible ? (
+                            <AddTaskForm addTask={handleAddNewTasks} SetisAddFormVisible={handleisAddFormVisible} />
+                        ) : (
+                            ''
+                        )}
+                        {isDeleteFormVisible ? (
+                            <DeleteTaskForm
+                                deleteTask={handleDeleteTask}
+                                setisDeleteFormVisible={handleisDeleteFormVisible}
+                            />
+                        ) : (
+                            ''
+                        )}
                     </div>
                 </div>
             </div>
