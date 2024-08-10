@@ -1,83 +1,97 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import TodoListParser from './components/TodoListParser';
 import AddTask from './components/AddTask';
 import AddTaskForm from './components/AddTaskForm';
 import DeleteTaskForm from './components/DeleteTaskForm';
 
-const todolist = [
-    {
-        color: 'red',
-        task: 'Demo Task',
-        date: '2024-8-21',
-        time: '12:00 am',
-        status: false,
-    },
-    {
-        color: 'yellow',
-        task: 'Demo',
-        date: '2024-8-22',
-        time: '11:00 am',
-        status: false,
-    },
-    {
-        color: 'green',
-        task: 'Task',
-        date: '2024-8-12',
-        time: '04:00 am',
-        status: false,
-    },
-    {
-        color: 'green',
-        task: 'Alpha',
-        date: '2024-8-12',
-        time: '04:00 am',
-        status: false,
-    },
-];
-
 function App() {
-    const [isAddFormVisible, setisAddFormVisible] = useState(false);
-    const [isDeleteFormVisible, setisDeleteFormVisible] = useState(false);
-    const [newtask, setAddNewTask] = useState(todolist);
+    const [isAddFormVisible, setIsAddFormVisible] = useState(false);
+    const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
+    const [tasks, setTasks] = useState([]); // Initialize as an empty array
     const [sortby, setSortBy] = useState('sortby');
     const [searchtask, setSearchTask] = useState('');
 
-    function handleisAddFormVisible() {
-        setisAddFormVisible((x) => !x);
-        isDeleteFormVisible ? setisDeleteFormVisible(false) : '';
-        console.log(isAddFormVisible);
-    }
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/tasks');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                // Ensure data is an array
+                if (Array.isArray(data)) {
+                    setTasks(data);
+                } else {
+                    console.error('Expected an array, but got:', data);
+                    setTasks([]);
+                }
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+                setTasks([]); // Set to an empty array on error
+            }
+        };
 
-    function handleisDeleteFormVisible() {
-        setisDeleteFormVisible((x) => !x);
-        isAddFormVisible ? setisAddFormVisible(false) : '';
-        console.log(isDeleteFormVisible);
-    }
+        fetchTasks();
+    }, []);
+
+    const handleisAddFormVisible = () => {
+        setIsAddFormVisible((prev) => !prev);
+        if (isDeleteFormVisible) setIsDeleteFormVisible(false);
+    };
+
+    const handleisDeleteFormVisible = () => {
+        setIsDeleteFormVisible((prev) => !prev);
+        if (isAddFormVisible) setIsAddFormVisible(false);
+    };
 
     function handleAddNewTasks(task) {
-        setAddNewTask((newtask) => [...newtask, task]);
+        fetch('http://localhost:5000/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(task),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((newTask) => setTasks([...tasks, newTask]))
+            .catch((err) => console.error('Error adding task:', err));
     }
 
-    function handleDeleteTask(task) {
-        setAddNewTask(newtask.filter((el) => el.task !== task));
-    }
+    const handleDeleteTask = async (taskId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/tasks/${taskId}`, {
+                method: 'DELETE',
+            });
 
-    let sorted = [...newtask];
+            if (!response.ok) {
+                const errorMessage = await response.text(); // Get error message from the response
+                throw new Error(`Failed to delete task: ${errorMessage}`);
+            }
+
+            setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
+    };
+
+    let sorted = [...tasks]; // Ensure this is always an array
     if (sortby === 'Task') {
-        sorted = sorted.slice().sort((a, b) => a.task.localeCompare(b.task));
+        sorted.sort((a, b) => a.task.localeCompare(b.task));
+    } else if (sortby === 'time') {
+        sorted.sort((a, b) => a.time.localeCompare(b.time));
     }
 
-    if (sortby === 'time') {
-        sorted = sorted.slice().sort((a, b) => a.time.localeCompare(b.time));
-    }
-
-    // Search tasks
     let searched = sorted;
     if (searchtask) {
         searched = sorted.filter((el) => el.task.toLowerCase().includes(searchtask.toLowerCase()));
     }
-    console.log(searched);
 
     return (
         <>
@@ -94,22 +108,18 @@ function App() {
                             setSort={setSortBy}
                             setSearch={setSearchTask}
                         />
-                        <TodoListParser todolist={sorted} searched={searched} />
+                        <TodoListParser todolist={searched} /> {/* Pass searched directly */}
                     </div>
 
                     <div className="right-side">
-                        {isAddFormVisible ? (
+                        {isAddFormVisible && (
                             <AddTaskForm addTask={handleAddNewTasks} SetisAddFormVisible={handleisAddFormVisible} />
-                        ) : (
-                            ''
                         )}
-                        {isDeleteFormVisible ? (
+                        {isDeleteFormVisible && (
                             <DeleteTaskForm
                                 deleteTask={handleDeleteTask}
                                 setisDeleteFormVisible={handleisDeleteFormVisible}
                             />
-                        ) : (
-                            ''
                         )}
                     </div>
                 </div>
