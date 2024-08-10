@@ -27,13 +27,21 @@ const todolist = [
         time: '04:00 am',
         status: false,
     },
+    {
+        color: 'green',
+        task: 'Alpha',
+        date: '2024-8-12',
+        time: '04:00 am',
+        status: false,
+    },
 ];
 
 function App() {
     const [isAddFormVisible, setisAddFormVisible] = useState(false);
     const [isDeleteFormVisible, setisDeleteFormVisible] = useState(false);
     const [newtask, setAddNewTask] = useState(todolist);
-    const [sortby, setSortBy] = useState(todolist);
+    const [sortby, setSortBy] = useState('sortby');
+    const [searchtask, setSearchTask] = useState('');
 
     function handleisAddFormVisible() {
         setisAddFormVisible((x) => !x);
@@ -55,10 +63,21 @@ function App() {
         setAddNewTask(newtask.filter((el) => el.task !== task));
     }
 
-    let sorted;
+    let sorted = [...newtask];
     if (sortby === 'Task') {
-        sorted = sortby.slice().sort((a, b) => a.Task.localeCompare(b.Task));
+        sorted = sorted.slice().sort((a, b) => a.task.localeCompare(b.task));
     }
+
+    if (sortby === 'time') {
+        sorted = sorted.slice().sort((a, b) => a.time.localeCompare(b.time));
+    }
+
+    // Search tasks
+    let searched = sorted;
+    if (searchtask) {
+        searched = sorted.filter((el) => el.task.toLowerCase().includes(searchtask.toLowerCase()));
+    }
+    console.log(searched);
 
     return (
         <>
@@ -73,8 +92,9 @@ function App() {
                             SetisAddFormVisible={handleisAddFormVisible}
                             setisDeleteFormVisible={handleisDeleteFormVisible}
                             setSort={setSortBy}
+                            setSearch={setSearchTask}
                         />
-                        <TodoListParser todolist={newtask} />
+                        <TodoListParser todolist={sorted} searched={searched} />
                     </div>
 
                     <div className="right-side">
