@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import './App.css'; 
 import TodoListParser from './components/TodoListParser';
 import AddTask from './components/AddTask';
 import AddTaskForm from './components/AddTaskForm';
