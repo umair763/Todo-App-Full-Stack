@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './AllComponentsStyle.css';
 import DisplayTodoList from './DisplayTodoList';
-
+ 
 function TodoListParser({ todolist, searched }) {
     // Ensure both todolist and searched are arrays
     const validTodoList = Array.isArray(todolist) ? todolist : [];

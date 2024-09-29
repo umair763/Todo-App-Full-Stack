@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './styles/AddTask.css';
 
 function AddTask({ SetisAddFormVisible, setisDeleteFormVisible, setSort, setSearch }) {
-    return (
+    return ( 
         <>
             <div className="Addtaskcontainer">
                 <p>🔴🟡🟢</p>

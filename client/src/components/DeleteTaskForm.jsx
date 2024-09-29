@@ -1,53 +1,39 @@
 import { useState } from 'react';
 import './styles/DeleteTaskForm.css';
 
-function DeleteTaskForm({ setisDeleteFormVisible, deleteTask }) {
-    const [Deltask, setDelTask] = useState('');
-
-    function convertTo12HourFormat(time) {
-        // Split the time into hours and minutes
-        let [hours, minutes] = time.split(':');
-
-        // Convert hours to a number
-        hours = parseInt(hours);
-
-        // Determine AM or PM suffix
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-
-        // Convert hours from 24-hour format to 12-hour format
-        hours = hours % 12 || 12;
-
-        // Return the formatted time
-        return `${hours}:${minutes} ${ampm}`;
-    }
+function DeleteTaskForm({ tasks, setisDeleteFormVisible, deleteTask }) {
+    const [selectedTaskId, setSelectedTaskId] = useState(''); // Track the selected task ID
 
     function handleform(e) {
         e.preventDefault();
-        deleteTask(Deltask);
-        setDelTask('');
+        if (selectedTaskId) {
+            deleteTask(selectedTaskId); // Pass the task's MongoDB _id to the delete function
+            setSelectedTaskId('');
+        } else {
+            console.error('No task selected for deletion.');
+        }
     }
 
     return (
         <>
             <form className="addtask-form2" onSubmit={handleform}>
-                <label>Enter color</label>
-                <select className="addentrysortby2">
-                    <option>Enter color</option>
-                    <option>red</option>
-                    <option>yellow</option>
-                    <option>green</option>
+                <label>Select Task</label>
+                <select
+                    className="addentrysortby2"
+                    onChange={(e) => setSelectedTaskId(e.target.value)} // Capture the _id of the selected task
+                    value={selectedTaskId}
+                >
+                    <option value="">Select a task</option>
+                    {tasks.map((task) => (
+                        <option key={task._id} value={task._id}>
+                            {task.task} ({task.date})
+                        </option>
+                    ))}
                 </select>
 
-                <label>Enter task</label>
-                <input type="text" className="writeTask2" onChange={(e) => setDelTask(e.target.value)} />
-
-                <label>Enter Date</label>
-                <input type="date" className="settime2" />
-
-                <label>Enter time</label>
-                <input type="time" className="settime2" />
-
-                <button className="confirmbtn2">Confirm</button>
+                <button className="confirmbtn2" type="submit">
+                    Confirm
+                </button>
                 <button className="closebtnn" onClick={setisDeleteFormVisible}>
                     Close
                 </button>

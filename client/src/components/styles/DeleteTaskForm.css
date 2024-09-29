@@ -1,50 +1,51 @@
-
 .addtask-form2 {
-	padding: 0 15px;
-	margin-left: 10%; 
-	border-radius: 15px;
-	row-gap: 12px;
-	padding: 14px;
-	display: grid;
-	margin-top: 55%;
-	width: 130%;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-	grid-template-columns: 1fr 2fr;
-	font-family: "Caros Light";
-	color: white;
-	background-color: rgba(230, 93, 65, 0.839);
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 0 15px;
+    margin-left: 10%;
+    border-radius: 15px;
+    row-gap: 12px;
+    padding: 14px;
+    display: grid;
+    margin-top: 55%;
+    width: 130%;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
+    font-family: 'Caros Light';
+    color: white;
+    background-color: rgba(230, 93, 65, 0.839);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: 100px;
 }
 .addentrysortby2 {
-	background-color: rgb(254, 186, 161);
-	border: 2px solid rgba(203, 55, 39, 0.94);
-	border-radius: 8px;
-	color: rgb(19, 19, 19);
+    background-color: rgb(254, 186, 161);
+    border: 2px solid rgba(203, 55, 39, 0.94);
+    border-radius: 8px;
+    color: rgb(19, 19, 19);
+    height: 150%;
 }
 .writeTask2 {
-	outline: none;
-	border-radius: 8px;
-	background-color: rgb(254, 186, 161);
-	border: 2px solid rgba(203, 55, 39, 0.94);
-	color: rgb(19, 19, 19);
+    outline: none;
+    border-radius: 8px;
+    background-color: rgb(254, 186, 161);
+    border: 2px solid rgba(203, 55, 39, 0.94);
+    color: rgb(19, 19, 19);
 }
 .settime2 {
-	border-radius: 8px;
-	background-color: rgb(254, 186, 161);
-	border: 2px solid rgba(203, 55, 39, 0.94);
-	color: rgb(19, 19, 19);
+    border-radius: 8px;
+    background-color: rgb(254, 186, 161);
+    border: 2px solid rgba(203, 55, 39, 0.94);
+    color: rgb(19, 19, 19);
 }
 .confirmbtn2 {
-	border: none;
-	color: white;
-	font-size: 16px;
-	cursor: pointer;
-	font-weight: bold;
-	padding: 8px 13px;
-	border-radius: 8px;
-	font-family: "Caros Light";
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	background: linear-gradient(135deg, rgba(242, 158, 2, 0.882) 0%, #cf2608e9 100%);
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-family: 'Caros Light';
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgba(242, 158, 2, 0.882) 0%, #cf2608e9 100%);
 }
 .closebtnn {
     width: 50%;

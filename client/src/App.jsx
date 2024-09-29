@@ -4,7 +4,7 @@ import TodoListParser from './components/TodoListParser';
 import AddTask from './components/AddTask';
 import AddTaskForm from './components/AddTaskForm';
 import DeleteTaskForm from './components/DeleteTaskForm';
-
+ 
 function App() {
     const [isAddFormVisible, setIsAddFormVisible] = useState(false);
     const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
@@ -117,6 +117,7 @@ function App() {
                         )}
                         {isDeleteFormVisible && (
                             <DeleteTaskForm
+                                tasks={tasks}
                                 deleteTask={handleDeleteTask}
                                 setisDeleteFormVisible={handleisDeleteFormVisible}
                             />
