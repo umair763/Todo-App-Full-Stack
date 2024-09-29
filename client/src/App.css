@@ -1,0 +1,40 @@
+@font-face {
+	font-family: "Caros Light";
+	src: url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.eot");
+	src: url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.eot?#iefix") format("embedded-opentype"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.woff2") format("woff2"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.woff") format("woff"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.ttf") format("truetype"),
+		url("https://db.onlinewebfonts.com/t/9180dec2cdd1711edd6b8d86954aae05.svg#Caros Light") format("svg");
+}
+
+body {
+	background-color: rgb(210, 210, 210);
+	padding: 22px 30px;
+}
+.grid {
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 1fr 300px ;
+	/* grid-template-columns: 5fr 1fr 25px; */
+    margin-right: 13%;
+}
+
+/* .div-1{
+    border-right: 5px solid white;
+    margin-right: 22px;
+} */
+
+.text {
+	padding-left: 10px;
+	font-weight: 700;
+	color: rgb(253, 148, 67);
+	font-family: "Caros Light", sans-serif;
+}
+.backgroundForm {
+	border-radius: 15px;
+	align-items: center;
+	justify-content: center;
+	padding: 5px 20px 5px 20px;
+	background: linear-gradient(to bottom right, rgba(148, 6, 230, 0.702), rgba(0, 225, 255, 0.702));
+}
