@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const Task = require("../models/Task.js"); // Use require instead of import
+const Task = require("./models/Task"); // Use require instead of import
 
 const app = express();
 app.use(cors());

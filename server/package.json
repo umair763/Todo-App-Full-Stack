@@ -4,27 +4,26 @@
     "description": "Server for a MERN stack application",
     "main": "index.js",
     "scripts": {
-      "start": "node index.js",
-      "dev": "nodemon index.js",
-      "build": "tsc",
-      "test": "jest"
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "build": "tsc",
+        "test": "jest"
     },
     "dependencies": {
-      "bcryptjs": "^2.4.3",
-      "body-parser": "^1.19.0",
-      "cors": "^2.8.5",
-      "dotenv": "^10.0.0",
-      "express": "^4.17.1",
-      "jsonwebtoken": "^8.5.1",
-      "mongoose": "^6.0.12"
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.21.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.0.12"
     },
     "devDependencies": {
-      "nodemon": "^2.0.7"
+        "nodemon": "^2.0.7"
     },
     "engines": {
-      "node": ">=14.0.0"
+        "node": ">=14.0.0"
     },
     "author": "",
     "license": "ISC"
-  }
-  
+}
