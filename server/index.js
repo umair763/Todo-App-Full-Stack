@@ -1,12 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const Task = require("./models/Task"); // Use require instead of import
+const Task = require("./models/Task");
+const LoginUser = require("./models/loginUser");
+const authenticator = require("./middleware/auth");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+const SALT_ROUNDS = 10;
+const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
 // Connect to MongoDB
 mongoose
@@ -17,61 +24,60 @@ mongoose
 	.then(() => console.log("MongoDB connected successfully"))
 	.catch((err) => console.error("MongoDB connection error:", err));
 
-// Routes
+// User Registration Route
+app.post("/api/register", async (req, res) => {
+	const { username, email, password } = req.body;
 
-// Get all tasks
-app.get("/tasks", async (req, res) => {
 	try {
-		const tasks = await Task.find(); // Retrieve all tasks from MongoDB
+		const existingUser = await LoginUser.findOne({ email });
+
+		if (existingUser) {
+			return res.status(400).json({ message: "User already exists" });
+		}
+
+		const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+		const newUser = new LoginUser({ username, email, password: hashedPassword });
+		await newUser.save();
+
+		res.status(201).json({ message: "User registered successfully" });
+	} catch (error) {
+		res.status(500).json({ message: "Error registering user", error: error.message });
+	}
+});
+
+// User Login Route
+app.post("/api/auth/login", async (req, res) => {
+	const { email, password } = req.body;
+
+	try {
+		const user = await LoginUser.findOne({ email });
+
+		if (!user) {
+			return res.status(400).json({ message: "User does not exist" });
+		}
+
+		const isMatch = await bcrypt.compare(password, user.password);
+
+		if (!isMatch) {
+			return res.status(400).json({ message: "Invalid credentials" });
+		}
+
+		const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
+		res.json({ token });
+	} catch (error) {
+		res.status(500).json({ message: "Error logging in", error: error.message });
+	}
+});
+
+// Route to get protected tasks (only accessible if user is authenticated)
+app.get("/tasks", authenticator, async (req, res) => {
+	try {
+		const tasks = await Task.find();
 		res.json(tasks);
 	} catch (err) {
 		res.status(500).json({ message: "Failed to fetch tasks", error: err.message });
 	}
 });
-
-// Add a new task
-app.post("/tasks", async (req, res) => {
-	try {
-		const { color, task, date, time } = req.body;
-
-		if (!color || !task || !date || !time) {
-			return res.status(400).json({ message: "All fields are required" });
-		}
-
-		const newTask = new Task({
-			color,
-			task,
-			date,
-			time,
-			status: false, // Default status as false
-		});
-
-		const savedTask = await newTask.save(); // Save the task to MongoDB
-		res.status(201).json(savedTask); // Respond with the newly added task
-	} catch (err) {
-		res.status(500).json({ message: "Failed to add task", error: err.message });
-	}
-});
-
-// Delete a task by ID
-app.delete("/tasks/:id", async (req, res) => {
-	console.log("Task ID to delete:", req.params.id); // Log the task ID to verify
-
-	try {
-		const { id } = req.params; // Extract the ID from the URL parameters
-		const deletedTask = await Task.findByIdAndDelete(id); // Find and delete task by its ID
-
-		if (!deletedTask) {
-			return res.status(404).json({ message: "Task not found" });
-		}
-
-		res.json({ message: "Task deleted successfully" });
-	} catch (err) {
-		console.error("Error deleting task:", err.message); // Log the actual error
-		res.status(500).json({ message: "Failed to delete task", error: err.message });
-	}
-});
-
 
 // Server running on port 5000
 const PORT = process.env.PORT || 5000;
