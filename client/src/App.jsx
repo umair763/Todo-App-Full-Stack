@@ -108,7 +108,7 @@ function App() {
     return (
         <>
             {!islogin ? (
-                <LoginForm />
+                <LoginForm setlogin={setlogin} />
             ) : (
                 <div className="backgroundForm">
                     <div className="grid">

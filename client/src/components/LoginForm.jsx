@@ -2,7 +2,8 @@ import { useState } from 'react';
 import './styles/LoginForm.css';
 import Registeruser from './Registeruser';
 
-function LoginForm() {
+function LoginForm({ setlogin }) {
+    // Pass setlogin as a prop
     const [showRegister, setShowRegister] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -25,7 +26,7 @@ function LoginForm() {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                window.location.href = '/'; // Redirect to the main app page
+                setlogin(true); // Update login state to true after successful login
             } else {
                 setError(data.message || 'Login failed');
             }
@@ -44,14 +45,13 @@ function LoginForm() {
                         <h2 className="title">Login form</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="vertical">
-                                <label>user name</label>
-                                <input type="text"  />
-                            </div>
+                                <label>User name</label>
+                                <input type="text" required/>
+                            </div>{' '}
                             <div className="vertical">
                                 <label>Email</label>
                                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                             </div>
-
                             <div className="vertical">
                                 <label>Password</label>
                                 <input
@@ -61,9 +61,7 @@ function LoginForm() {
                                     required
                                 />
                             </div>
-
                             {error && <p className="error">{error}</p>}
-
                             <div className="buttonscontainer">
                                 <button className="btn" type="submit">
                                     Login
