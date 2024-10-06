@@ -1,28 +1,40 @@
-import { useState, useEffect } from 'react';
-import './App.css'; 
+import { useState, useEffect, useSyncExternalStore } from 'react';
+import './App.css';
 import TodoListParser from './components/TodoListParser';
 import AddTask from './components/AddTask';
 import AddTaskForm from './components/AddTaskForm';
 import DeleteTaskForm from './components/DeleteTaskForm';
- 
+import LoginForm from './components/LoginForm';
+
 function App() {
     const [isAddFormVisible, setIsAddFormVisible] = useState(false);
     const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
     const [tasks, setTasks] = useState([]); // Initialize as an empty array
     const [sortby, setSortBy] = useState('sortby');
     const [searchtask, setSearchTask] = useState('');
+    const [islogin, setlogin] = useState(false);
 
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await fetch('http://localhost:5000/tasks');
+                const token = localStorage.getItem('token'); // Get token from localStorage
+                if (!token) {
+                    throw new Error('No token found, please log in.');
+                }
+
+                const response = await fetch('http://localhost:5000/tasks', {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Ensure 'Bearer' is included
+                    },
+                });
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
+
                 const data = await response.json();
-                // Ensure data is an array
                 if (Array.isArray(data)) {
-                    setTasks(data);
+                    setTasks(data); // Set tasks only for the logged-in user
                 } else {
                     console.error('Expected an array, but got:', data);
                     setTasks([]);
@@ -34,7 +46,7 @@ function App() {
         };
 
         fetchTasks();
-    }, []);
+    }, [islogin]); // Fetch tasks whenever the login state changes
 
     const handleisAddFormVisible = () => {
         setIsAddFormVisible((prev) => !prev);
@@ -51,6 +63,7 @@ function App() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure correct format
             },
             body: JSON.stringify(task),
         })
@@ -68,6 +81,9 @@ function App() {
         try {
             const response = await fetch(`http://localhost:5000/tasks/${taskId}`, {
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Add 'Bearer' before the token
+                },
             });
 
             if (!response.ok) {
@@ -95,36 +111,40 @@ function App() {
 
     return (
         <>
-            <div className="backgroundForm">
-                <div className="grid">
-                    <div className="div-1">
-                        <div className="text">
-                            <h1>Todo App</h1>
-                            <h3>To-Do lists help us break life into small steps.</h3>
-                        </div>
-                        <AddTask
-                            SetisAddFormVisible={handleisAddFormVisible}
-                            setisDeleteFormVisible={handleisDeleteFormVisible}
-                            setSort={setSortBy}
-                            setSearch={setSearchTask}
-                        />
-                        <TodoListParser todolist={searched} /> {/* Pass searched directly */}
-                    </div>
-
-                    <div className="right-side">
-                        {isAddFormVisible && (
-                            <AddTaskForm addTask={handleAddNewTasks} SetisAddFormVisible={handleisAddFormVisible} />
-                        )}
-                        {isDeleteFormVisible && (
-                            <DeleteTaskForm
-                                tasks={tasks}
-                                deleteTask={handleDeleteTask}
+            {!islogin ? (
+                <LoginForm setlogin={setlogin} />
+            ) : (
+                <div className="backgroundForm">
+                    <div className="grid">
+                        <div className="div-1">
+                            <div className="text">
+                                <h1>Todo App</h1>
+                                <h3>To-Do lists help us break life into small steps.</h3>
+                            </div>
+                            <AddTask
+                                SetisAddFormVisible={handleisAddFormVisible}
                                 setisDeleteFormVisible={handleisDeleteFormVisible}
+                                setSort={setSortBy}
+                                setSearch={setSearchTask}
                             />
-                        )}
+                            <TodoListParser todolist={searched} />
+                        </div>
+
+                        <div className="right-side">
+                            {isAddFormVisible && (
+                                <AddTaskForm addTask={handleAddNewTasks} SetisAddFormVisible={handleisAddFormVisible} />
+                            )}
+                            {isDeleteFormVisible && (
+                                <DeleteTaskForm
+                                    tasks={tasks}
+                                    deleteTask={handleDeleteTask}
+                                    setisDeleteFormVisible={handleisDeleteFormVisible}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </>
     );
 }
