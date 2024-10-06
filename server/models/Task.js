@@ -1,6 +1,4 @@
-// Task.js
 const mongoose = require("mongoose");
-// import { Schema, model } from "mongoose";
 
 const taskSchema = new mongoose.Schema({
 	color: {
@@ -22,6 +20,12 @@ const taskSchema = new mongoose.Schema({
 	status: {
 		type: Boolean,
 		default: false,
+	},
+	user: {
+		// New field to associate task with user
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "loginusers", // Reference to the loginusers collection
+		required: true,
 	},
 });
 
