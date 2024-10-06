@@ -17,6 +17,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
 // Connect to MongoDB
 mongoose
+	// .connect("mongodb://my-todo:L7Gli6e3fgtFtqJPvHHaCLLuDm4RaV0OpbU8qpipWlqQvp1beL5YRhxN9uTcbfTNkLXiQazzCoBaACDbpgUhdQ%3D%3D@my-todo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb/todoapp", {
 	.connect("mongodb://127.0.0.1:27017/todoapp", {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
