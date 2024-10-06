@@ -51,6 +51,20 @@ input[type='text']:focus {
     font-family: 'Caros Light';
 }
 
+input[type='email'] {
+    border-radius: 6px;
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.626);
+    color: rgb(235, 235, 235);
+    background-color: transparent;
+    font-family: 'Caros Light';
+}
+input[type='email']:focus {
+    outline: none;
+    color: rgb(235, 235, 235);
+    font-family: 'Caros Light';
+}
+
 input[type='password'] {
     border-radius: 6px;
     padding: 6px;
@@ -84,4 +98,19 @@ input[type='password']:focus {
     background-color: rgb(131, 6, 202);
     color: white;
     cursor: pointer;
+}
+
+@media screen and (min-width: 280px) and (max-width: 300px) {
+    .container {
+        min-width: 150px;
+        max-height: 235px;
+    }
+
+    .vertical {
+        margin-bottom: 3px;
+    }
+    .btn {
+        padding: 3px 7px 3px 7px;
+        margin-top: 3px;
+    }
 }

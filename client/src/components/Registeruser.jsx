@@ -39,20 +39,20 @@ function Registeruser() {
 
     return (
         <>
-            <div className="container">
+            <div className="containerr">
                 <h2 className="title">Register</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="vertical">
+                    <div className="verticall">
                         <label>Username</label>
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
                     </div>
 
-                    <div className="vertical">
+                    <div className="verticall">
                         <label>Email</label>
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </div>
 
-                    <div className="vertical">
+                    <div className="verticall">
                         <label>Password</label>
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </div>
@@ -60,7 +60,7 @@ function Registeruser() {
                     {error && <p className="error">{error}</p>}
                     {success && <p className="success">{success}</p>}
 
-                    <div className="buttonscontainer">
+                    <div className="buttonscontainerr">
                         <button className="btn" type="submit">
                             Register
                         </button>

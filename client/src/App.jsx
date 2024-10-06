@@ -24,7 +24,7 @@ function App() {
 
                 const response = await fetch('http://localhost:5000/tasks', {
                     headers: {
-                        Authorization: token, // Attach token in Authorization header
+                        Authorization: `Bearer ${token}`, // Ensure 'Bearer' is included
                     },
                 });
 
@@ -34,7 +34,7 @@ function App() {
 
                 const data = await response.json();
                 if (Array.isArray(data)) {
-                    setTasks(data);
+                    setTasks(data); // Set tasks only for the logged-in user
                 } else {
                     console.error('Expected an array, but got:', data);
                     setTasks([]);
@@ -46,7 +46,7 @@ function App() {
         };
 
         fetchTasks();
-    }, []);
+    }, [islogin]); // Fetch tasks whenever the login state changes
 
     const handleisAddFormVisible = () => {
         setIsAddFormVisible((prev) => !prev);
@@ -63,6 +63,7 @@ function App() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure correct format
             },
             body: JSON.stringify(task),
         })
@@ -80,6 +81,9 @@ function App() {
         try {
             const response = await fetch(`http://localhost:5000/tasks/${taskId}`, {
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Add 'Bearer' before the token
+                },
             });
 
             if (!response.ok) {

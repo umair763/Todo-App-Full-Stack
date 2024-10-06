@@ -69,13 +69,56 @@ app.post("/api/auth/login", async (req, res) => {
 	}
 });
 
-// Route to get protected tasks (only accessible if user is authenticated)
 app.get("/tasks", authenticator, async (req, res) => {
 	try {
-		const tasks = await Task.find();
+		// Fetch tasks only for the logged-in user (req.user contains the user's ID)
+		const tasks = await Task.find({ user: req.user });
 		res.json(tasks);
 	} catch (err) {
 		res.status(500).json({ message: "Failed to fetch tasks", error: err.message });
+	}
+});
+
+app.post("/tasks", authenticator, async (req, res) => {
+	try {
+		const { color, task, date, time } = req.body;
+
+		if (!color || !task || !date || !time) {
+			return res.status(400).json({ message: "All fields are required" });
+		}
+
+		const newTask = new Task({
+			color,
+			task,
+			date,
+			time,
+			status: false, // Default status as false
+			user: req.user, // Associate task with the logged-in user
+		});
+
+		const savedTask = await newTask.save(); // Save the task to MongoDB
+		res.status(201).json(savedTask); // Respond with the newly added task
+	} catch (err) {
+		res.status(500).json({ message: "Failed to add task", error: err.message });
+	}
+});
+
+// Delete Task (DELETE request)
+app.delete("/tasks/:id", authenticator, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		// Find the task and ensure it belongs to the logged-in user
+		const task = await Task.findOne({ _id: id, user: req.user });
+
+		if (!task) {
+			return res.status(404).json({ message: "Task not found or you do not have permission to delete it" });
+		}
+
+		await Task.findByIdAndDelete(id); // Delete the task if it belongs to the logged-in user
+		res.json({ message: "Task deleted successfully" });
+	} catch (err) {
+		res.status(500).json({ message: "Failed to delete task", error: err.message });
 	}
 });
 
