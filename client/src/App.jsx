@@ -22,7 +22,7 @@ function App() {
                     throw new Error('No token found, please log in.');
                 }
 
-                const response = await fetch('http://localhost:5000/tasks', {
+                const response = await fetch('http://localhost:5000/api/tasks', {
                     headers: {
                         Authorization: `Bearer ${token}`, // Ensure 'Bearer' is included
                     },
@@ -59,7 +59,7 @@ function App() {
     };
 
     function handleAddNewTasks(task) {
-        fetch('http://localhost:5000/tasks', {
+        fetch('http://localhost:5000/api/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,15 +79,16 @@ function App() {
 
     const handleDeleteTask = async (taskId) => {
         try {
-            const response = await fetch(`http://localhost:5000/tasks/${taskId}`, {
+            const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+                // Add `/tasks/` before taskId
                 method: 'DELETE',
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Add 'Bearer' before the token
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
 
             if (!response.ok) {
-                const errorMessage = await response.text(); // Get error message from the response
+                const errorMessage = await response.text();
                 throw new Error(`Failed to delete task: ${errorMessage}`);
             }
 
