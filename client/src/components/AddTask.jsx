@@ -7,7 +7,7 @@ function AddTask({ SetisAddFormVisible, setisDeleteFormVisible, setSort, setSear
             <div className="Addtaskcontainer">
                 <p>🔴🟡🟢</p>
                 <input
-                    type="text"
+                    type="search"
                     className="searchbar"
                     placeholder="Search..."
                     onChange={(e) => setSearch(e.target.value)}
