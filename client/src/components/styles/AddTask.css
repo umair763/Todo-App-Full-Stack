@@ -1,6 +1,6 @@
 .Addtaskcontainer {
     display: grid;
-    /* width: 100%; */
+    width: 98%;
     padding: 0 15px;
     font-weight: bold;
     /* margin-left: 15%;
@@ -22,6 +22,11 @@
     border: none;
     width: 100%; /* Make it take full width of its grid area */
 }
+
+input[type='text'] {
+    border: none;
+}
+
 .sortby {
     height: 40px;
     padding: 8px;

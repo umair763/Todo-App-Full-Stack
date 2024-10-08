@@ -14,6 +14,23 @@ A simple Todo List application built with React.js for the frontend and Node.js 
 - **Frontend**: React.js, Vite
 - **Backend**: Node.js, Express, MongoDB
 
+## Demo
+
+You can view the live demo of the application here:
+
+[Live Demo](https://todo-app-full-stack-frontend.vercel.app/)
+
+## Screenshots
+
+### Homepage
+![Homepage](path/to/homepage-screenshot.png)
+
+### Add Task
+![Add Task](path/to/add-task-screenshot.png)
+
+### Task List
+![Task List](path/to/task-list-screenshot.png)
+
 ## Getting Started
 
 ### Prerequisites
