@@ -22,7 +22,8 @@ function App() {
                     throw new Error('No token found, please log in.');
                 }
 
-                const response = await fetch('http://localhost:5000/api/tasks', {
+                // const response = await fetch('http://localhost:5000/api/tasks', {
+                const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks',{
                     headers: {
                         Authorization: `Bearer ${token}`, // Ensure 'Bearer' is included
                     },
@@ -59,7 +60,8 @@ function App() {
     };
 
     function handleAddNewTasks(task) {
-        fetch('http://localhost:5000/api/tasks', {
+        // fetch('http://localhost:5000/api/tasks', {
+        fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +81,8 @@ function App() {
 
     const handleDeleteTask = async (taskId) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+            // const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+            const response = await fetch(`https://todo-app-full-stack-opal.vercel.app/api/tasks/${taskId}`, {
                 // Add `/tasks/` before taskId
                 method: 'DELETE',
                 headers: {
