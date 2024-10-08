@@ -22,14 +22,24 @@ You can view the live demo of the application here:
 
 ## Screenshots
 
-### Homepage
-![Homepage](path/to/homepage-screenshot.png)
+### Register
+![Homepage](images/Register.png)
 
-### Add Task
-![Add Task](path/to/add-task-screenshot.png)
+### Login
+![Add Task](images/Login.png)
 
-### Task List
-![Task List](path/to/task-list-screenshot.png)
+### Initial Profile
+![Add Task](images/Empty%20Profile%20Initial.png)
+
+### Add Tasks
+![Add Task](images/Add%20Task%20Form.png)
+
+### Delete Tasks
+![Add Task](images/Delete%20Task.png)
+
+### View Tasks
+![Add Task](images/Tasks.png)
+
 
 ## Getting Started
 
