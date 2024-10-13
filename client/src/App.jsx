@@ -1,5 +1,5 @@
 import { useState, useEffect, useSyncExternalStore } from 'react';
-import './App.css';
+// import './App.css';
 import TodoListParser from './components/TodoListParser';
 import AddTask from './components/AddTask';
 import AddTaskForm from './components/AddTaskForm';
@@ -114,42 +114,44 @@ function App() {
     }
 
     return (
-        <>
-            {!islogin ? (
-                <LoginForm setlogin={setlogin} />
-            ) : (
-                <div className="backgroundForm">
-                    <div className="grid">
-                        <div className="div-1">
-                            <div className="text">
-                                <h1>Todo App</h1>
-                                <h3>To-Do lists help us break life into small steps.</h3>
-                            </div>
-                            <AddTask
-                                SetisAddFormVisible={handleisAddFormVisible}
-                                setisDeleteFormVisible={handleisDeleteFormVisible}
-                                setSort={setSortBy}
-                                setSearch={setSearchTask}
-                            />
-                            <TodoListParser todolist={searched} />
-                        </div>
+       <>
+          {islogin ? (
+             <LoginForm setlogin={setlogin} />
+          ) : (
+             <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
+                <div className="w-full max-w-6xl p-5 rounded-xl shadow-lg bg-gradient-to-br from-[#9406E6] to-[#00FFFF] grid grid-cols-1 lg:grid-cols-[1fr,300px] gap-4">
+                   <div className="div-1 border-r-4 border-white pr-5">
+                      <div className="text">
+                         <h1 className="text-4xl text-white font-extrabold mb-4">Todo App</h1>
+                         <h3 className="text-xl text-white font-semibold mb-6">
+                            To-Do lists help us break life into small steps.
+                         </h3>
+                      </div>
+                      <AddTask
+                         SetisAddFormVisible={handleisAddFormVisible}
+                         setisDeleteFormVisible={handleisDeleteFormVisible}
+                         setSort={setSortBy}
+                         setSearch={setSearchTask}
+                      />
+                      <TodoListParser todolist={searched} />
+                   </div>
 
-                        <div className="right-side">
-                            {isAddFormVisible && (
-                                <AddTaskForm addTask={handleAddNewTasks} SetisAddFormVisible={handleisAddFormVisible} />
-                            )}
-                            {isDeleteFormVisible && (
-                                <DeleteTaskForm
-                                    tasks={tasks}
-                                    deleteTask={handleDeleteTask}
-                                    setisDeleteFormVisible={handleisDeleteFormVisible}
-                                />
-                            )}
-                        </div>
-                    </div>
+                   <div className="right-side">
+                      {isAddFormVisible && (
+                         <AddTaskForm addTask={handleAddNewTasks} SetisAddFormVisible={handleisAddFormVisible} />
+                      )}
+                      {isDeleteFormVisible && (
+                         <DeleteTaskForm
+                            tasks={tasks}
+                            deleteTask={handleDeleteTask}
+                            setisDeleteFormVisible={handleisDeleteFormVisible}
+                         />
+                      )}
+                   </div>
                 </div>
-            )}
-        </>
+             </div>
+          )}
+       </>
     );
 }
 
