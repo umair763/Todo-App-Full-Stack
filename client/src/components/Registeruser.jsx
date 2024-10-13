@@ -91,7 +91,6 @@ function Registeruser() {
          </div>
       </>
    );
-
 }
 
 export default Registeruser;
