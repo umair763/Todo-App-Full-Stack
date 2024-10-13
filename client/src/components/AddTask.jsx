@@ -31,7 +31,7 @@ function AddTask({ SetisAddFormVisible, setisDeleteFormVisible, setSort, setSear
          </div>
 
          {/* Button Container */}
-         <div className="buttons flex justify-end px-2 py-1 mt-1 w-full">
+         <div className="buttons flex justify-end px-2 py-1 mt-1 w-full pb-3">
             <button
                className="addbtn px-3 py-1 mr-2 bg-gradient-to-r from-[#56ccf2] to-[#2f80ed] text-white rounded-md shadow-md font-bold text-xs md:text-sm"
                onClick={SetisAddFormVisible}
