@@ -40,46 +40,46 @@ function Registeruser() {
 
    return (
       <>
-         <div className="bg-gradient-to-br from-[#0700DE] to-[#DDFFC9] justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-lg font-caros-light text-gray-200 min-w-[250px] shadow-lg md:min-w-[400px]">
+         <div className="bg-gradient-to-br from-[#0700DE] to-[#c4faa5] justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-lg font-caros-light text-gray-200 min-w-[250px] shadow-lg md:min-w-[400px]">
             <h2 className="text-center text-xl font-extrabold">Register</h2>
             <form onSubmit={handleSubmit}>
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label>Username</label>
+                  <label className="pt-5 pb-3">Username</label>
                   <input
                      type="text"
                      value={username}
                      onChange={(e) => setUsername(e.target.value)}
                      required
-                     className="rounded-md p-2 border border-black/60 bg-transparent text-gray-200 font-caros-light focus:outline-none"
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
                </div>
 
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label>Email</label>
+                  <label className="pt-5 pb-3">Email</label>
                   <input
                      type="email"
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
                      required
-                     className="rounded-md p-2 border border-black/60 bg-transparent text-gray-200 font-caros-light focus:outline-none"
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
                </div>
 
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label>Password</label>
+                  <label className="pt-5 pb-3">Password</label>
                   <input
                      type="password"
                      value={password}
                      onChange={(e) => setPassword(e.target.value)}
                      required
-                     className="rounded-md p-2 border border-black/60 bg-transparent font-caros-light focus:outline-none"
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
                </div>
 
                {error && <p className="text-red-500">{error}</p>}
                {success && <p className="text-green-500">{success}</p>}
 
-               <div className="flex flex-row gap-3 mt-4">
+               <div className="flex flex-row gap-3 mt-6 ">
                   <button
                      type="submit"
                      className="bg-[#9406e6] text-white rounded-lg p-2 px-6 font-bold hover:bg-[#8306ca] cursor-pointer"

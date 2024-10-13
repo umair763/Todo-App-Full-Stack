@@ -39,7 +39,7 @@ function LoginForm({ setlogin }) {
    return (
       <>
          <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
-            <div className="bg-gradient-to-br from-[#6157ff] to-[#ee49fd] justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-lg font-caros-light text-gray-200 min-w-[250px] shadow-lg md:min-w-[400px]">
+            <div className="bg-gradient-to-br from-[#5d53e7] to-[#ea26fb] justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-xl font-caros-light text-gray-200 min-w-[250px] shadow-xl md:min-w-[400px]">
                {showRegister ? (
                   <Registeruser />
                ) : (
@@ -47,31 +47,31 @@ function LoginForm({ setlogin }) {
                      <h2 className="text-center text-xl font-extrabold">Login form</h2>
                      <form onSubmit={handleSubmit}>
                         <div className="flex flex-col justify-center mb-2 font-bold">
-                           <label>User name</label>
+                           <label className="pt-5 pb-3">User name</label>
                            <input
                               type="text"
                               required
-                              className="rounded-md p-2 border border-black/60 bg-transparent text-gray-200 font-caros-light focus:outline-none"
+                              className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                            />
                         </div>
                         <div className="flex flex-col justify-center mb-2 font-bold">
-                           <label>Email</label>
+                           <label className="pt-5 pb-3">Email</label>
                            <input
                               type="email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                               required
-                              className="rounded-md p-2 border border-black/60 bg-transparent text-gray-200 font-caros-light focus:outline-none"
+                              className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                            />
                         </div>
                         <div className="flex flex-col justify-center mb-2 font-bold">
-                           <label>Password</label>
+                           <label className="pt-5 pb-3">Password</label>
                            <input
                               type="password"
                               value={password}
                               onChange={(e) => setPassword(e.target.value)}
                               required
-                              className="rounded-md p-2 border border-black/60 bg-transparent font-caros-light focus:outline-none"
+                              className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                            />
                         </div>
                         {error && <p className="text-red-500">{error}</p>}
