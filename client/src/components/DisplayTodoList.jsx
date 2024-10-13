@@ -11,7 +11,7 @@ function DisplayTodoList({ list }) {
    return (
       <>
          <div className="scrollableDiv">
-            <div className="listbar grid grid-cols-[30px,fr,1fr] w-full px-4 py-2 mb-2 rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
+            <div className="listbar grid grid-cols-[30px,fr,1fr] w-full px-4 py-2 mb-2 font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
                <input
                   type="radio"
                   className={`${
@@ -23,12 +23,20 @@ function DisplayTodoList({ list }) {
                   }`}
                />
 
-               <p className={`time ${marked ? 'line-through' : ''} text-left sm:text-base lg:text-md`}>{list.task}</p>
+               <p className={`time ${marked ? 'line-through' : ''} text-left sm:text-base font-caros-light lg:text-md`}>
+                  {list.task}
+               </p>
                <div className="time flex justify-between items-center">
-                  <p className={`${marked ? 'line-through' : ''} gap-2 text-left sm:text-base lg:text-md`}>
+                  <p
+                     className={`${
+                        marked ? 'line-through' : ''
+                     } gap-2 text-left sm:text-base font-caros-light lg:text-md`}
+                  >
                      {list.date}
                   </p>
-                  <p className={`${marked ? 'line-through' : ''} text-left sm:text-base lg:text-md`}>{list.time}</p>
+                  <p className={`${marked ? 'line-through' : ''} text-left sm:text-base font-caros-light lg:text-md`}>
+                     {list.time}
+                  </p>
                   <input
                      type="checkbox"
                      className="checkbox w-4 h-4 rounded-full border-2 border-indigo-600 cursor-pointer appearance-none checked:bg-[#573fff] checked:border-[#573fff] relative"
