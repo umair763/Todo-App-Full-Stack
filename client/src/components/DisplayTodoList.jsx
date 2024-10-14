@@ -23,18 +23,26 @@ function DisplayTodoList({ list }) {
                   }`}
                />
 
-               <p className={`time ${marked ? 'line-through' : ''} text-left sm:text-base font-caros-light lg:text-md`}>
+               <p
+                  className={`time ${
+                     marked ? 'line-through' : ''
+                  } font-bold text-left sm:text-base font-caros-light lg:text-md`}
+               >
                   {list.task}
                </p>
                <div className="time flex justify-between items-center">
                   <p
                      className={`${
                         marked ? 'line-through' : ''
-                     } gap-2 text-left sm:text-base font-caros-light lg:text-md`}
+                     } font-bold gap-2 text-left sm:text-base font-caros-light lg:text-md`}
                   >
                      {list.date}
                   </p>
-                  <p className={`${marked ? 'line-through' : ''} text-left sm:text-base font-caros-light lg:text-md`}>
+                  <p
+                     className={`${
+                        marked ? 'line-through' : ''
+                     } font-bold text-left sm:text-base font-caros-light lg:text-md`}
+                  >
                      {list.time}
                   </p>
                   <input
