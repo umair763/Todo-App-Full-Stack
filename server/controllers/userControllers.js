@@ -6,33 +6,38 @@ const User = require("../models/userModel");
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
-// Multer configuration for file uploads (store files in memory as Buffer)
+// Multer configuration for handling image uploads
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // User registration
 exports.registerUser = [
-    upload.single("picture"),
+    upload.single("picture"), // Handle image uploads
     async (req, res) => {
-        const { username, gender, occupation, organization, email, password } = req.body;
-
         try {
-            // Check if the user already exists
+            // Debugging logs to see what's received
+            console.log("Request Body:", req.body);
+            console.log("Password:", req.body.password);
+            console.log("Picture:", req.file);
+
+            const { username, gender, occupation, organization, email, password } = req.body;
+
+            // Ensure all fields are present
+            if (!username || !email || !password) {
+                return res.status(400).json({ message: "All fields are required" });
+            }
+
+            // Check if user already exists
             const existingUser = await User.findOne({ email });
             if (existingUser) {
                 return res.status(400).json({ message: "User already exists" });
-            }
-
-            // Validate the password
-            if (!password || typeof password !== "string") {
-                return res.status(400).json({ message: "Password is required and must be a string" });
             }
 
             // Hash the password
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
             // Handle the picture field (stored as Buffer)
-			const picture = req.file && req.file.buffer ? req.file.buffer : null;
+            const uploadPicture = req.file ? req.file.buffer : null; // Handle image
 
             // Create a new user object
             const newUser = new User({
@@ -42,7 +47,7 @@ exports.registerUser = [
                 occupation,
                 organization,
                 password: hashedPassword,
-                picture,
+                picture: uploadPicture,
             });
 
             // Save the user to the database
@@ -50,9 +55,9 @@ exports.registerUser = [
 
             res.status(201).json({ message: "User registered successfully" });
         } catch (error) {
+            console.error("Registration error:", error); // Log error details
             res.status(500).json({ message: "Error registering user", error: error.message || "Unknown error occurred" });
         }
-
     },
 ];
 
@@ -86,28 +91,38 @@ exports.loginUser = async (req, res) => {
 //profile
 exports.profile = async (req, res) => {
     try {
-        // Ensure the user is authenticated by checking the token
-        const userId = req.user && req.user.userId; // Ensure req.user is properly set
+        const userId = req.user; // Get user ID from JWT
+        console.log("Fetching profile for user ID:", userId); // Add logging
+
         if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
+            return res.status(401).json({ message: "Unauthorized: User ID not found in request" });
         }
 
-        const user = await User.findById(userId);
-
+        const user = await User.findById(userId).select("-password"); // Fetch user and exclude password
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Send the user details (excluding password)
-        res.json({
+        console.log("User found:", user); // Log user details
+
+        // Convert the picture from Buffer to base64 if it exists
+        let pictureBase64 = null;
+        if (user.picture) {
+            pictureBase64 = user.picture.toString("base64"); // Convert buffer to base64 string
+            console.log("Base64 image size:", pictureBase64.length); // Log image size for debugging
+        }
+
+        // Return user details including base64 image
+        return res.status(200).json({
             username: user.username,
             email: user.email,
-            picture: user.picture ? user.picture.toString("base64") : null, // Convert picture to base64
             gender: user.gender,
             occupation: user.occupation,
             organization: user.organization,
+            picture: pictureBase64, // Send base64-encoded image
         });
     } catch (error) {
-        res.status(500).json({ message: "Failed to fetch user profile", error: error.message });
+        console.error("Error fetching user profile:", error); // Log any errors
+        res.status(500).json({ message: "Error fetching user profile", error: error.message });
     }
 };

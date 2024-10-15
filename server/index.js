@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-app.use(express.urlencoded({ extended: true })); // Add this to parse URL-encoded form data
 
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
@@ -25,7 +24,7 @@ mongoose
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
-app.use("api/profile", userRoutes);
+app.use("/api/profile", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

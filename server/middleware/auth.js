@@ -1,19 +1,24 @@
 const jwt = require("jsonwebtoken");
 
 function authenticator(req, res, next) {
-  const token = req.headers.authorization?.split(" ")[1];
+    const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized, no token provided" });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET || "your_secret_key", (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Invalid token" });
+    // Ensure the token is available
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Unauthorized: No token provided" });
     }
-    req.user = decoded.userId; // Attach user ID to the request
-    next();
-  });
+
+    const token = authHeader.split(" ")[1]; // Extract token from 'Bearer <token>'
+
+    jwt.verify(token, process.env.JWT_SECRET || "your_secret_key", (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+
+        // Set the userId in the request object
+        req.user = decoded.userId;
+        next();
+    });
 }
 
 module.exports = authenticator;

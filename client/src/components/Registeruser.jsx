@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 
 function Registeruser() {
    const [username, setUsername] = useState('');
-   const [image, setImage] = useState(null);
+   const [picture, setpicture] = useState(null);
    const [gender, setGender] = useState('');
    const [occupation, setOccupation] = useState('');
    const [organization, setOrganization] = useState('');
@@ -12,9 +12,9 @@ function Registeruser() {
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
 
-   const handleImageUpload = (e) => {
+   const handlepictureUpload = (e) => {
       if (e.target.files && e.target.files[0]) {
-         setImage(e.target.files[0]); // Set the uploaded image file
+         setpicture(e.target.files[0]); // Set the uploaded picture file
       }
    };
 
@@ -23,6 +23,7 @@ function Registeruser() {
       setError('');
       setSuccess('');
 
+      // Prepare FormData for the multipart form submission
       const formData = new FormData();
       formData.append('username', username);
       formData.append('gender', gender);
@@ -30,19 +31,12 @@ function Registeruser() {
       formData.append('organization', organization);
       formData.append('email', email);
       formData.append('password', password);
-
-      if (image) {
-         const reader = new FileReader();
-         reader.onload = () => {
-            formData.append('picture', reader.result);
-         };
-         reader.readAsDataURL(image);
-      }
+      formData.append('picture', picture); // Attach picture if it exists
 
       try {
          const response = await fetch('http://localhost:5000/api/users/register', {
             method: 'POST',
-            body: formData,
+            body: formData, // Send the formData
          });
 
          const data = await response.json();
@@ -128,7 +122,7 @@ function Registeruser() {
                   <input
                      type="file"
                      accept="image/*"
-                     onChange={handleImageUpload}
+                     onChange={handlepictureUpload}
                      required
                      className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
