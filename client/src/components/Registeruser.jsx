@@ -34,9 +34,10 @@ const handleSubmit = async (e) => {
     formData.append('picture', picture); // Attach picture if it exists
 
     try {
-        const response = await fetch('http://localhost:5000/api/users/register', {
-            method: 'POST',
-            body: formData, // Send the formData
+      //   const response = await fetch('http://localhost:5000/api/users/register', {
+        const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/register', {
+           method: 'POST',
+           body: formData, // Send the formData
         });
 
         const data = await response.json();
