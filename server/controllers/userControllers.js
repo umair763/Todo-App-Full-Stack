@@ -15,14 +15,12 @@ exports.registerUser = [
     upload.single("picture"), // Handle image uploads
     async (req, res) => {
         try {
-            // Debugging logs to see what's received
             console.log("Request Body:", req.body);
             console.log("Password:", req.body.password);
             console.log("Picture:", req.file);
 
             const { username, gender, occupation, organization, email, password } = req.body;
 
-            // Ensure all fields are present
             if (!username || !email || !password) {
                 return res.status(400).json({ message: "All fields are required" });
             }
@@ -36,10 +34,13 @@ exports.registerUser = [
             // Hash the password
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-            // Handle the picture field (stored as Buffer)
-            const uploadPicture = req.file ? req.file.buffer : null; // Handle image
+            // Convert image to base64 string if it exists
+            let base64Picture = null;
+            if (req.file) {
+                base64Picture = req.file.buffer.toString("base64"); // Convert buffer to base64
+            }
 
-            // Create a new user object
+            // Create a new user object with base64-encoded image
             const newUser = new User({
                 username,
                 gender,
@@ -47,7 +48,7 @@ exports.registerUser = [
                 occupation,
                 organization,
                 password: hashedPassword,
-                picture: uploadPicture,
+                picture: base64Picture, // Store base64 image
             });
 
             // Save the user to the database
@@ -55,7 +56,7 @@ exports.registerUser = [
 
             res.status(201).json({ message: "User registered successfully" });
         } catch (error) {
-            console.error("Registration error:", error); // Log error details
+            console.error("Registration error:", error);
             res.status(500).json({ message: "Error registering user", error: error.message || "Unknown error occurred" });
         }
     },
@@ -92,8 +93,6 @@ exports.loginUser = async (req, res) => {
 exports.profile = async (req, res) => {
     try {
         const userId = req.user; // Get user ID from JWT
-        console.log("Fetching profile for user ID:", userId); // Add logging
-
         if (!userId) {
             return res.status(401).json({ message: "Unauthorized: User ID not found in request" });
         }
@@ -103,13 +102,11 @@ exports.profile = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        console.log("User found:", user); // Log user details
-
-        // Convert the picture from Buffer to base64 if it exists
-        let pictureBase64 = null;
+        // Prepare the picture as base64
+        let base64Picture = null;
         if (user.picture) {
-            pictureBase64 = user.picture.toString("base64"); // Convert buffer to base64 string
-            console.log("Base64 image size:", pictureBase64.length); // Log image size for debugging
+            const mimeType = "image/jpeg"; // Assuming it's a JPEG image; adjust this based on the uploaded image type
+            base64Picture = `data:${mimeType};base64,${user.picture}`; // Prepare base64 string
         }
 
         // Return user details including base64 image
@@ -119,10 +116,9 @@ exports.profile = async (req, res) => {
             gender: user.gender,
             occupation: user.occupation,
             organization: user.organization,
-            picture: pictureBase64, // Send base64-encoded image
+            picture: base64Picture, // Send the base64-encoded image
         });
     } catch (error) {
-        console.error("Error fetching user profile:", error); // Log any errors
         res.status(500).json({ message: "Error fetching user profile", error: error.message });
     }
 };

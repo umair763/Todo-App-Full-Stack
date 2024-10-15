@@ -18,39 +18,39 @@ function Registeruser() {
       }
    };
 
-   const handleSubmit = async (e) => {
-      e.preventDefault();
-      setError('');
-      setSuccess('');
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
 
-      // Prepare FormData for the multipart form submission
-      const formData = new FormData();
-      formData.append('username', username);
-      formData.append('gender', gender);
-      formData.append('occupation', occupation);
-      formData.append('organization', organization);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('picture', picture); // Attach picture if it exists
+    // Prepare FormData for the multipart form submission
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('gender', gender);
+    formData.append('occupation', occupation);
+    formData.append('organization', organization);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('picture', picture); // Attach picture if it exists
 
-      try {
-         const response = await fetch('http://localhost:5000/api/users/register', {
+    try {
+        const response = await fetch('http://localhost:5000/api/users/register', {
             method: 'POST',
             body: formData, // Send the formData
-         });
+        });
 
-         const data = await response.json();
+        const data = await response.json();
 
-         if (response.ok) {
+        if (response.ok) {
             setSuccess('Registration successful!');
             setTimeout(() => (window.location.href = '/'), 2000);
-         } else {
+        } else {
             setError(data.message || 'Registration failed');
-         }
-      } catch (err) {
-         setError('An error occurred. Please try again.');
-      }
-   };
+        }
+    } catch (err) {
+        setError('An error occurred. Please try again.');
+    }
+};
 
    return (
       <>
