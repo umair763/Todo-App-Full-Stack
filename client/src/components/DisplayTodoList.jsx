@@ -10,47 +10,45 @@ function DisplayTodoList({ list }) {
 
    return (
       <>
-         <div className="scrollableDiv">
-            <div className="listbar grid grid-cols-[30px,fr,1fr] w-full px-4 py-2 mb-2 font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
-               <input
-                  type="radio"
-                  className={`${
-                     list.color === 'red'
-                        ? 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-red-600 border-red-600'
-                        : list.color === 'yellow'
-                        ? 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-yellow-400 border-yellow-400'
-                        : 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-green-600 border-green-600'
-                  }`}
-               />
+         <div className="listbar grid grid-cols-[30px,fr,1fr] w-[98%] px-4 py-2 mb-2  font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
+            <input
+               type="radio"
+               className={`${
+                  list.color === 'red'
+                     ? 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-red-600 border-red-600'
+                     : list.color === 'yellow'
+                     ? 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-yellow-400 border-yellow-400'
+                     : 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-green-600 border-green-600'
+               }`}
+            />
 
+            <p
+               className={`time ${
+                  marked ? 'line-through' : ''
+               } font-bold text-left sm:text-base font-caros-light lg:text-md`}
+            >
+               {list.task}
+            </p>
+            <div className="time flex justify-between items-center">
                <p
-                  className={`time ${
+                  className={`${
+                     marked ? 'line-through' : ''
+                  } font-bold gap-2 text-left sm:text-base font-caros-light lg:text-md`}
+               >
+                  {list.date}
+               </p>
+               <p
+                  className={`${
                      marked ? 'line-through' : ''
                   } font-bold text-left sm:text-base font-caros-light lg:text-md`}
                >
-                  {list.task}
+                  {list.time}
                </p>
-               <div className="time flex justify-between items-center">
-                  <p
-                     className={`${
-                        marked ? 'line-through' : ''
-                     } font-bold gap-2 text-left sm:text-base font-caros-light lg:text-md`}
-                  >
-                     {list.date}
-                  </p>
-                  <p
-                     className={`${
-                        marked ? 'line-through' : ''
-                     } font-bold text-left sm:text-base font-caros-light lg:text-md`}
-                  >
-                     {list.time}
-                  </p>
-                  <input
-                     type="checkbox"
-                     className="checkbox w-4 h-4 rounded-full border-2 border-indigo-600 cursor-pointer appearance-none checked:bg-[#573fff] checked:border-[#573fff] relative"
-                     onClick={handlemarked}
-                  />
-               </div>
+               <input
+                  type="checkbox"
+                  className="checkbox w-4 h-4 rounded-full border-2 border-indigo-600 cursor-pointer appearance-none checked:bg-[#573fff] checked:border-[#573fff] relative"
+                  onClick={handlemarked}
+               />
             </div>
          </div>
 
@@ -125,26 +123,6 @@ function DisplayTodoList({ list }) {
                   font-size: 18px;
                   opacity: 0.7;
                }
-            }
-
-            // .scrollableDiv {
-            //    height: 50vh;
-            //    overflow-y: auto;
-            //    margin-right: 5px;
-            // }
-            .scrollableDiv::-webkit-scrollbar {
-               width: 12px;
-            }
-            .scrollableDiv::-webkit-scrollbar-thumb {
-               background: rgba(5, 103, 189, 0.782);
-               border-radius: 10px;
-            }
-            .scrollableDiv::-webkit-scrollbar-thumb:hover {
-               background: rgba(3, 90, 166, 0.782);
-            }
-            .scrollableDiv::-webkit-scrollbar-track {
-               background: rgb(133, 198, 255);
-               border-radius: 10px;
             }
          `}</style>
       </>

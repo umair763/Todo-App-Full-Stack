@@ -3,6 +3,5 @@
     "tabWidth": 4,
     "semi": true,
     "no-trailing-lines": true,
-    "printWidth": 133,
-    "parser": "python"
+    "printWidth": 133
 }

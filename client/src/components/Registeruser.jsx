@@ -1,34 +1,54 @@
 import { useState } from 'react';
-// import './styles/Registeruser.css';
 import LoginForm from './LoginForm';
 
 function Registeruser() {
    const [username, setUsername] = useState('');
+   const [image, setImage] = useState(null);
+   const [gender, setGender] = useState('');
+   const [occupation, setOccupation] = useState('');
+   const [organization, setOrganization] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
+
+   const handleImageUpload = (e) => {
+      if (e.target.files && e.target.files[0]) {
+         setImage(e.target.files[0]); // Set the uploaded image file
+      }
+   };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
       setError('');
       setSuccess('');
 
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('gender', gender);
+      formData.append('occupation', occupation);
+      formData.append('organization', organization);
+      formData.append('email', email);
+      formData.append('password', password);
+
+      if (image) {
+         const reader = new FileReader();
+         reader.onload = () => {
+            formData.append('picture', reader.result);
+         };
+         reader.readAsDataURL(image);
+      }
+
       try {
-         // const response = await fetch(' http://localhost:5000/api/users/register ', {
-         const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/register ', {
+         const response = await fetch('http://localhost:5000/api/users/register', {
             method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, email, password }),
+            body: formData,
          });
 
          const data = await response.json();
 
          if (response.ok) {
             setSuccess('Registration successful!');
-            // Redirect to login
             setTimeout(() => (window.location.href = '/'), 2000);
          } else {
             setError(data.message || 'Registration failed');
@@ -44,7 +64,7 @@ function Registeruser() {
             <h2 className="text-center text-xl font-extrabold">Register</h2>
             <form onSubmit={handleSubmit}>
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label className="pt-5 pb-3">Username</label>
+                  <label className="pt-4">User name</label>
                   <input
                      type="text"
                      value={username}
@@ -53,9 +73,38 @@ function Registeruser() {
                      className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
                </div>
-
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label className="pt-5 pb-3">Email</label>
+                  <label className="pt-4">Gender</label>
+                  <input
+                     type="text"
+                     value={gender}
+                     onChange={(e) => setGender(e.target.value)}
+                     required
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                  />
+               </div>
+               <div className="flex flex-col justify-center mb-2 font-bold">
+                  <label className="pt-4">Occupation</label>
+                  <input
+                     type="text"
+                     value={occupation}
+                     onChange={(e) => setOccupation(e.target.value)}
+                     required
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                  />
+               </div>
+               <div className="flex flex-col justify-center mb-2 font-bold">
+                  <label className="pt-4">Organization</label>
+                  <input
+                     type="text"
+                     value={organization}
+                     onChange={(e) => setOrganization(e.target.value)}
+                     required
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                  />
+               </div>
+               <div className="flex flex-col justify-center mb-2 font-bold">
+                  <label className="pt-4">Email</label>
                   <input
                      type="email"
                      value={email}
@@ -64,9 +113,8 @@ function Registeruser() {
                      className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
                </div>
-
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label className="pt-5 pb-3">Password</label>
+                  <label className="pt-4 ">Password</label>
                   <input
                      type="password"
                      value={password}
@@ -75,11 +123,21 @@ function Registeruser() {
                      className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
                   />
                </div>
+               <div className="flex flex-col justify-center mb-2 font-bold">
+                  <label className="pt-4 ">Profile Picture</label>
+                  <input
+                     type="file"
+                     accept="image/*"
+                     onChange={handleImageUpload}
+                     required
+                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                  />
+               </div>
 
-               {error && <p className="text-red-500">{error}</p>}
-               {success && <p className="text-green-500">{success}</p>}
+               {error && <p className="text-black">{error}</p>}
+               {success && <p className="text-black">{success}</p>}
 
-               <div className="flex flex-row gap-3 mt-6 ">
+               <div className="flex flex-row gap-3 mt-6">
                   <button
                      type="submit"
                      className="bg-[#9406e6] text-white rounded-lg p-2 px-6 font-bold hover:bg-[#8306ca] cursor-pointer"
@@ -94,3 +152,6 @@ function Registeruser() {
 }
 
 export default Registeruser;
+
+// const response = await fetch(' http://localhost:5000/api/users/register ', {
+// const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/register ', {
