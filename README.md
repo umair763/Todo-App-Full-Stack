@@ -23,11 +23,23 @@ You can view the live demo of the application here:
 ## Demo Video
 
 <video width="600" height="350" controls>
-    <source src="images/Demo Vid.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video> 
+  <source src="https://vimeo.com/1020121778" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<!-- [Watch the video on Vimeo](https://vimeo.com/1020121778) -->
 
 ## Getting Started
+
+## Register
+![Image description](images/register.png)
+
+## Log-in
+![Image description](images/login.png)
+
+## Profile
+![Image description](images//profle.png)
+
 
 ### Prerequisites
 
