@@ -118,11 +118,7 @@ function UserProfile({ setlogin }) {
          <div className="flex justify-center mb-8">
             <div className="rounded-full bg-[#9df7f7] p-2 shadow-md">
                {userDetails.picture ? (
-                  <img
-                     src={userDetails.picture} 
-                     alt="Profile"
-                     className="w-36 h-36 rounded-full object-cover"
-                  />
+                  <img src={userDetails.picture} alt="Profile" className="w-36 h-36 rounded-full object-cover" />
                ) : (
                   <div className="w-36 h-36 rounded-full bg-gray-200 flex items-center justify-center">No Image</div>
                )}
@@ -130,15 +126,25 @@ function UserProfile({ setlogin }) {
          </div>
 
          <div className="bg-[#9df7f7] p-6 rounded-xl shadow-lg">
-            <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Name: {userDetails.username}</p>
-            <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Email: {userDetails.email}</p>
-            <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Gender: {userDetails.gender}</p>
-            <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Occupation: {userDetails.occupation}</p>
-            <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Organization: {userDetails.organization}</p>
+            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+               Name: {userDetails.username}
+            </p>
+            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+               Email: {userDetails.email}
+            </p>
+            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+               Gender: {userDetails.gender}
+            </p>
+            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+               Occupation: {userDetails.occupation}
+            </p>
+            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+               Organization: {userDetails.organization}
+            </p>
 
             <button
                onClick={handleLogout}
-               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
+               className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
             >
                Logout
             </button>
