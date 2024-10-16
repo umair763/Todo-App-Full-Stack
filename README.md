@@ -35,7 +35,7 @@ You can view the live demo of the application here:
 ![Register form](images/register.png)
 
 ## Log-in
-![Login form](images/profle.png)
+![Login form](images/login.png)
 
 ## Profile
 ![profile view](images/profle.png)
