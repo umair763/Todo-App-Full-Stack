@@ -21,7 +21,8 @@ function UserProfile({ setlogin }) {
                throw new Error('No token found');
             }
 
-            const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+            // const response = await fetch('http://localhost:5000/api/users/profile', {
+               const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ function UserProfile({ setlogin }) {
             setUserDetails({
                username: data.username,
                email: data.email,
-               picture: data.picture, // Base64-encoded image string
+               picture: data.picture,
                gender: data.gender,
                occupation: data.occupation,
                organization: data.organization,
@@ -46,7 +47,8 @@ function UserProfile({ setlogin }) {
          } catch (err) {
             setError(`Error fetching user profile: ${err.message}`);
          } finally {
-            setLoading(false);
+            // setLoading(false);
+            setTimeout(() => setLoading(false), 1000); 
          }
       };
 
@@ -59,7 +61,52 @@ function UserProfile({ setlogin }) {
    };
 
    if (loading) {
-      return <div>Loading...</div>;
+      return (
+         <>
+            <div class="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
+               {/* <!-- Scan line --> */}
+               <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
+
+               {/* <!-- Glowing border --> */}
+               <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
+
+               {/* <!-- Loading text --> */}
+               <div class="relative z-10 text-white text-lg font-semibold">Fetching Profile...</div>
+            </div>
+            <style jsx>
+               {`
+                  @layer utilities {
+                     @keyframes scan {
+                        0% {
+                           transform: translateY(-100%);
+                        }
+                        100% {
+                           transform: translateY(100%);
+                        }
+                     }
+
+                     @keyframes glow {
+                        0%,
+                        100% {
+                           box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+                        }
+                        50% {
+                           box-shadow: 0 10px 10px rgb(255, 255, 255);
+                        }
+                     }
+
+                     .animate-scan {
+                        animation: scan 2s infinite linear;
+                     }
+
+                     .animate-glow {
+                        animation: glow 3s infinite ease-in-out;
+                     }
+                  }
+               `}
+            </style>
+         </>
+      );
    }
 
    if (error) {
@@ -69,10 +116,10 @@ function UserProfile({ setlogin }) {
    return (
       <div className="container mx-auto p-5 max-w-6xl">
          <div className="flex justify-center mb-8">
-            <div className="rounded-full bg-white p-2 shadow-md">
+            <div className="rounded-full bg-[#9df7f7] p-2 shadow-md">
                {userDetails.picture ? (
                   <img
-                     src={userDetails.picture} // Base64 image already in src
+                     src={userDetails.picture} 
                      alt="Profile"
                      className="w-36 h-36 rounded-full object-cover"
                   />
@@ -82,7 +129,7 @@ function UserProfile({ setlogin }) {
             </div>
          </div>
 
-         <div className="bg-gray-100 p-6 rounded-xl shadow-lg">
+         <div className="bg-[#9df7f7] p-6 rounded-xl shadow-lg">
             <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Name: {userDetails.username}</p>
             <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Email: {userDetails.email}</p>
             <p className="text-sm md:text-base lg:text-lg xl:text-xl mb-2">Gender: {userDetails.gender}</p>

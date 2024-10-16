@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Registeruser from './Registeruser';
 
 function LoginForm({ setlogin }) {
-   // Pass setlogin as a prop
    const [showRegister, setShowRegister] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');

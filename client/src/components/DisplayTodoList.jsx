@@ -10,7 +10,7 @@ function DisplayTodoList({ list }) {
 
    return (
       <>
-         <div className="listbar grid grid-cols-[30px,fr,1fr] w-[98%] px-4 py-2 mb-2  font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
+         <div className="listbar grid grid-cols-[30px,fr,1fr] w-[98%] px-4 py-2 mb-2 mt-2 font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
             <input
                type="radio"
                className={`${

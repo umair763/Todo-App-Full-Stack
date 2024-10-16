@@ -17,10 +17,9 @@ function TodoListParser({ todolist, searched }) {
             {displayList.length > 0 ? (
                displayList.map((list, i) => <DisplayTodoList list={list} key={list._id || i} />)
             ) : (
-               <p>No tasks available</p> // Show a message when no tasks are present
+               <NoTasksMessage />
             )}
          </div>
-
          <style jsx>{`
             .scrollableContainer {
                max-height: 45vh; /* Set height for the container, not tasks */
@@ -48,3 +47,16 @@ function TodoListParser({ todolist, searched }) {
 }
 
 export default TodoListParser;
+
+const NoTasksMessage = () => {
+   return (
+      <div className="flex flex-col items-center justify-center h-full w-full mt-3">
+         <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 shadow-lg">
+            <h2 className="text-2xl font-semibold text-center text-white">No Tasks Available</h2>
+            <p className="text-center text-gray-200 mt-2">
+               It seems you haven't added any tasks yet. Get started by adding a new task!
+            </p>
+         </div>
+      </div>
+   );
+};

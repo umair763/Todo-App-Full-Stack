@@ -8,20 +8,16 @@ function AddTaskForm({ SetisAddFormVisible, addTask }) {
    const [time, setTime] = useState('');
 
    function convertTo12HourFormat(time) {
-      // Split the time into hours and minutes
       let [hours, minutes] = time.split(':');
-
-      // Convert hours to a number
       hours = parseInt(hours);
-
-      // Determine AM or PM suffix
       const ampm = hours >= 12 ? 'PM' : 'AM';
-
-      // Convert hours from 24-hour format to 12-hour format
       hours = hours % 12 || 12;
-
-      // Return the formatted time
       return `${hours}:${minutes} ${ampm}`;
+   }
+
+   function convertToDateFormat(date) {
+      const [year, month, day] = date.split('-');
+      return `${day}/${month}/${year}`;
    }
 
    function handleform(e) {
@@ -37,6 +33,7 @@ function AddTaskForm({ SetisAddFormVisible, addTask }) {
       console.log(newTaskobj);
       addTask(newTaskobj);
    }
+
    return (
       <>
          <form
@@ -66,7 +63,7 @@ function AddTaskForm({ SetisAddFormVisible, addTask }) {
                <input
                   type="date"
                   className="settime bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm p-1"
-                  onChange={(e) => setDate(e.target.value)}
+                  onChange={(e) => setDate(convertToDateFormat(e.target.value))}
                />
 
                <label className="text-sm">Set time</label>
