@@ -105,7 +105,7 @@ exports.profile = async (req, res) => {
         // Prepare the picture as base64
         let base64Picture = null;
         if (user.picture) {
-            const mimeType = "image/jpeg"; // Assuming it's a JPEG image; adjust this based on the uploaded image type
+            const mimeType = "image/*";
             base64Picture = `data:${mimeType};base64,${user.picture}`; // Prepare base64 string
         }
 
