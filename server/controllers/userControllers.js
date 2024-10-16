@@ -6,11 +6,19 @@ const User = require("../models/userModel");
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
-// Multer configuration for handling image uploads
+// Set file size limit to 50MB
+const MAX_SIZE = 50 * 1024 * 1024; // 50MB in bytes
+
 const storage = multer.memoryStorage();
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // Set limit to 50MB
+    limits: { fileSize: MAX_SIZE },
+    fileFilter: (req, file, cb) => {
+        if (!file.mimetype.startsWith("image/")) {
+            return cb(new Error("Only image files are allowed!"), false);
+        }
+        cb(null, true);
+    },
 });
 
 // User registration
@@ -32,7 +40,7 @@ exports.registerUser = [
             if (req.file.size > 50 * 1024 * 1024) {
                 return res.status(400).json({ message: "Picture size exceeds 50MB." });
             }
-            
+
             // Check if user already exists
             const existingUser = await User.findOne({ email });
             if (existingUser) {
@@ -64,8 +72,14 @@ exports.registerUser = [
 
             res.status(201).json({ message: "User registered successfully" });
         } catch (error) {
-            console.error("Registration error:", error);
-            res.status(500).json({ message: "Error registering user", error: error.message || "Unknown error occurred" });
+            console.error(error); // Log error to the console
+            if (error instanceof multer.MulterError) {
+                return res.status(400).json({ message: error.message });
+            } else if (error.message) {
+                // Generic error message
+                return res.status(500).json({ message: error.message });
+            }
+            res.status(500).json({ message: "An internal server error occurred." });
         }
     },
 ];
