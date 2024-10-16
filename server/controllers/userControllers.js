@@ -6,8 +6,8 @@ const User = require("../models/userModel");
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
-// Set file size limit to 50MB
-const MAX_SIZE = 50 * 1024 * 1024; // 50MB in bytes
+// Set file size limit to 1
+const MAX_SIZE = 1024 * 1024 * 1024 * 1024; // 1GB in bytes
 
 const storage = multer.memoryStorage();
 const upload = multer({
