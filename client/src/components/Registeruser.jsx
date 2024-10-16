@@ -46,7 +46,12 @@ function Registeruser() {
             setSuccess('Registration successful!');
             setTimeout(() => (window.location.href = '/'), 2000);
          } else {
-            setError(data.message || 'Registration failed');
+            // Provide detailed error messages based on the response
+            if (data.message) {
+               setError(data.message);
+            } else {
+               setError('Registration failed. Please check your inputs.');
+            }
          }
       } catch (err) {
          setError('An error occurred. Please try again.');

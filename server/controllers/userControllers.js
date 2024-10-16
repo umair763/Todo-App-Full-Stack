@@ -8,7 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
 // Multer configuration for handling image uploads
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 50 * 1024 * 1024 }, // Set limit to 50MB
+});
 
 // User registration
 exports.registerUser = [
@@ -25,6 +28,11 @@ exports.registerUser = [
                 return res.status(400).json({ message: "All fields are required" });
             }
 
+            // Check file size (this is extra precaution if needed)
+            if (req.file.size > 50 * 1024 * 1024) {
+                return res.status(400).json({ message: "Picture size exceeds 50MB." });
+            }
+            
             // Check if user already exists
             const existingUser = await User.findOne({ email });
             if (existingUser) {
