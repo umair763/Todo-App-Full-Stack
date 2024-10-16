@@ -22,7 +22,7 @@ function UserProfile({ setlogin }) {
             }
 
             // const response = await fetch('http://localhost:5000/api/users/profile', {
-               const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+            const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ function UserProfile({ setlogin }) {
             setError(`Error fetching user profile: ${err.message}`);
          } finally {
             // setLoading(false);
-            setTimeout(() => setLoading(false), 1000); 
+            setTimeout(() => setLoading(false), 1000);
          }
       };
 
@@ -126,19 +126,19 @@ function UserProfile({ setlogin }) {
          </div>
 
          <div className="bg-[#9df7f7] p-6 rounded-xl shadow-lg">
-            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
                Name: {userDetails.username}
             </p>
-            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
                Email: {userDetails.email}
             </p>
-            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
                Gender: {userDetails.gender}
             </p>
-            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
                Occupation: {userDetails.occupation}
             </p>
-            <p className="font-caros-light text-sm md:text-base lg:text-lg xl:text-xl mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
                Organization: {userDetails.organization}
             </p>
 
