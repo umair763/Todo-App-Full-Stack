@@ -32,13 +32,13 @@ You can view the live demo of the application here:
 ## Getting Started
 
 ## Register
-![Register form](images//register.png)
+![Register form](images/register.png)
 
 ## Log-in
-![Login form](images//login.png)
+![Login form](images/profle.png)
 
 ## Profile
-![profile view](images//profle.png)
+![profile view](images/profle.png)
 
 
 ### Prerequisites
