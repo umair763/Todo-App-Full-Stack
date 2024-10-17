@@ -45,6 +45,8 @@ function LoginForm({ setlogin }) {
             } catch (err) {
                setError('Error validating token. Please log in again.');
             }
+         } else {
+            setlogin(false); // No token found, user must log in
          }
          setLoading(false); // Stop loading after validation
       };
@@ -57,7 +59,6 @@ function LoginForm({ setlogin }) {
       setError('');
 
       try {
-         // const response = await fetch('http://localhost:5000/api/users/login', {
          const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
             method: 'POST',
             headers: {
@@ -82,16 +83,16 @@ function LoginForm({ setlogin }) {
    if (loading) {
       return (
          <>
-            <div className="h-full w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
-               <div class="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
-                  {/* <!-- Scan line --> */}
-                  <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
+            <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
+               <div className="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
+                  {/* Scan line */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
 
-                  {/* <!-- Glowing border --> */}
-                  <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
+                  {/* Glowing border */}
+                  <div className="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
 
-                  {/* <!-- Loading text --> */}
-                  <div class="relative z-10 text-white text-lg font-semibold">Please wait...</div>
+                  {/* Loading text */}
+                  <div className="relative z-10 text-white text-lg font-semibold">Please wait...</div>
                </div>
             </div>
             <style jsx>
