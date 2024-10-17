@@ -8,6 +8,14 @@ function LoginForm({ setlogin }) {
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
 
+   // Check for token in local storage on component mount
+   useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+         setlogin(true); // Automatically log in if the token exists
+      }
+   }, [setlogin]);
+
    const handleSubmit = async (e) => {
       e.preventDefault();
       setError('');
@@ -25,7 +33,7 @@ function LoginForm({ setlogin }) {
          const data = await response.json();
 
          if (response.ok) {
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.token); // Save token in localStorage
             setlogin(true); // Update login state to true after successful login
          } else {
             setError(data.message || 'Login failed');
