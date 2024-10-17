@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import './styles/LoginForm.css';
 import Registeruser from './Registeruser';
 
 function LoginForm({ setlogin }) {
@@ -8,11 +7,39 @@ function LoginForm({ setlogin }) {
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
 
-   // Check for token in local storage on component mount
+   // Function to validate token with server
+   const validateToken = async (token) => {
+      try {
+         const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+            method: 'GET',
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         });
+
+         if (response.ok) {
+            const data = await response.json();
+            console.log('User profile fetched:', data); // Debugging
+            setlogin(true); // If profile fetch is successful, log the user in
+         } else {
+            // Token is invalid or expired, remove it from localStorage
+            localStorage.removeItem('token');
+            setlogin(false); // Ensure user is not logged in
+         }
+      } catch (error) {
+         console.error('Error validating token:', error);
+         localStorage.removeItem('token'); // Clean up token if there's an error
+         setlogin(false);
+      }
+   };
+
+   // Check for token in local storage and validate it
    useEffect(() => {
       const token = localStorage.getItem('token');
       if (token) {
-         setlogin(true); // Automatically log in if the token exists
+         validateToken(token); // Validate token with the server
+      } else {
+         setlogin(false); // No token, so no login
       }
    }, [setlogin]);
 
