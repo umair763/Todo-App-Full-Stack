@@ -8,6 +8,19 @@ function LoginForm({ setlogin }) {
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(true); // Add loading state
 
+   // Remove token when the page is closed
+   useEffect(() => {
+      const handleUnload = () => {
+         localStorage.removeItem('token');
+      };
+
+      window.addEventListener('beforeunload', handleUnload);
+
+      return () => {
+         window.removeEventListener('beforeunload', handleUnload);
+      };
+   }, []);
+
    // Check for token in local storage on component mount and validate it
    useEffect(() => {
       const checkToken = async () => {
@@ -69,7 +82,7 @@ function LoginForm({ setlogin }) {
    if (loading) {
       return (
          <>
-            <div className='<div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4'>
+            <div className="h-full w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
                <div class="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
                   {/* <!-- Scan line --> */}
                   <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
@@ -78,7 +91,7 @@ function LoginForm({ setlogin }) {
                   <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
 
                   {/* <!-- Loading text --> */}
-                  <div class="relative z-10 text-white text-lg font-semibold">Loading Please wait...</div>
+                  <div class="relative z-10 text-white text-lg font-semibold">Please wait...</div>
                </div>
             </div>
             <style jsx>
@@ -111,7 +124,7 @@ function LoginForm({ setlogin }) {
                         animation: glow 3s infinite ease-in-out;
                      }
                   }
-       style   `}
+               `}
             </style>
          </>
       );
