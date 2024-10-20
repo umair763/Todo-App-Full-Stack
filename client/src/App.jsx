@@ -109,9 +109,26 @@ function App() {
       // sorted.sort((a, b) => a.time.localeCompare(b.time));
       // Sort by date first, then by time within those dates
       sorted.sort((a, b) => {
-         const dateA = new Date(a.date.split('/').reverse().join('-') + ' ' + a.time); // Combine date and time
-         const dateB = new Date(b.date.split('/').reverse().join('-') + ' ' + b.time); // Combine date and time
-         return dateA - dateB; // Sort by earliest date and time
+         // Convert date strings from 'DD/MM/YYYY' to 'YYYY-MM-DD'
+         const dateA = new Date(a.date.split('/').reverse().join('-') + ' ' + a.time); // Create Date object with both date and time
+         const dateB = new Date(b.date.split('/').reverse().join('-') + ' ' + b.time); // Create Date object with both date and time
+
+         // First, sort by date
+         if (dateA < dateB) return -1;
+         if (dateA > dateB) return 1;
+
+         // If dates are the same, sort by time
+         const timeA = a.time.split(':').map(Number); // Split time into hours and minutes, convert to numbers
+         const timeB = b.time.split(':').map(Number); // Same for the other task
+
+         // Compare times (hours and minutes)
+         if (timeA[0] < timeB[0]) return -1; // Compare hours first
+         if (timeA[0] > timeB[0]) return 1;
+         if (timeA[1] < timeB[1]) return -1; // If hours are equal, compare minutes
+         if (timeA[1] > timeB[1]) return 1;
+
+         // If both date and time are the same, return 0
+         return 0;
       });
    }
 
