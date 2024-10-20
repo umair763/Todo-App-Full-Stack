@@ -102,6 +102,16 @@ function App() {
       }
    };
 
+   function convertTo24HourFormat(time) {
+      const [timePart, modifier] = time.split(' '); // Split time and AM/PM
+      let [hours, minutes] = timePart.split(':').map(Number);
+
+      if (modifier === 'PM' && hours < 12) hours += 12; // Convert PM to 24-hour format
+      if (modifier === 'AM' && hours === 12) hours = 0; // Convert 12 AM to 00 hours
+
+      return { hours, minutes };
+   }
+
    let sorted = [...tasks]; // Ensure this is always an array
    if (sortby === 'Task') {
       sorted.sort((a, b) => a.task.localeCompare(b.task));
@@ -110,25 +120,24 @@ function App() {
       // Sort by date first, then by time within those dates
       sorted.sort((a, b) => {
          // Convert date strings from 'DD/MM/YYYY' to 'YYYY-MM-DD'
-         const dateA = new Date(a.date.split('/').reverse().join('-') + ' ' + a.time); // Create Date object with both date and time
-         const dateB = new Date(b.date.split('/').reverse().join('-') + ' ' + b.time); // Create Date object with both date and time
+         const dateA = new Date(a.date.split('/').reverse().join('-') + ' ' + a.time);
+         const dateB = new Date(b.date.split('/').reverse().join('-') + ' ' + b.time);
 
          // First, sort by date
          if (dateA < dateB) return -1;
          if (dateA > dateB) return 1;
 
-         // If dates are the same, sort by time
-         const timeA = a.time.split(':').map(Number); // Split time into hours and minutes, convert to numbers
-         const timeB = b.time.split(':').map(Number); // Same for the other task
+         // If dates are the same, sort by time (convert to 24-hour format first)
+         const timeA = convertTo24HourFormat(a.time); // Convert timeA to 24-hour format
+         const timeB = convertTo24HourFormat(b.time); // Convert timeB to 24-hour format
 
-         // Compare times (hours and minutes)
-         if (timeA[0] < timeB[0]) return -1; // Compare hours first
-         if (timeA[0] > timeB[0]) return 1;
-         if (timeA[1] < timeB[1]) return -1; // If hours are equal, compare minutes
-         if (timeA[1] > timeB[1]) return 1;
+         // Compare hours first, then minutes if hours are the same
+         if (timeA.hours < timeB.hours) return -1;
+         if (timeA.hours > timeB.hours) return 1;
+         if (timeA.minutes < timeB.minutes) return -1;
+         if (timeA.minutes > timeB.minutes) return 1;
 
-         // If both date and time are the same, return 0
-         return 0;
+         return 0; // Dates and times are the same
       });
    }
 
