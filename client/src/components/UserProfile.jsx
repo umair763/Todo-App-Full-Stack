@@ -126,19 +126,19 @@ function UserProfile({ setlogin }) {
          </div>
 
          <div className="bg-[#9df7f7] p-6 rounded-xl shadow-lg">
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90">
                Name: {userDetails.username}
             </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90">
                Email: {userDetails.email}
             </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90">
                Gender: {userDetails.gender}
             </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90">
                Occupation: {userDetails.occupation}
             </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2">
+            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90">
                Organization: {userDetails.organization}
             </p>
 
