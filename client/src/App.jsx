@@ -106,7 +106,13 @@ function App() {
    if (sortby === 'Task') {
       sorted.sort((a, b) => a.task.localeCompare(b.task));
    } else if (sortby === 'time') {
-      sorted.sort((a, b) => a.time.localeCompare(b.time));
+      // sorted.sort((a, b) => a.time.localeCompare(b.time));
+            // Sort by date first, then by time within those dates
+      sorted.sort((a, b) => {
+         const dateA = new Date(a.date + ' ' + a.time);  // Combine date and time
+         const dateB = new Date(b.date + ' ' + b.time);  // Combine date and time
+         return dateA - dateB;  // Sort by earliest date and time
+      });
    }
 
    let searched = sorted;
@@ -158,3 +164,18 @@ function App() {
 }
 
 export default App;
+
+
+   // sorted.sort((a, b) => {
+   //    const dateA = new Date(a.time);
+   //    const dateB = new Date(b.time);
+
+   //    if (dateA < dateB) return -1;
+   //    if (dateA > dateB) return 1;
+
+   //    // If dates are the same, compare the times
+   //    const timeA = dateA.getTime();
+   //    const timeB = dateB.getTime();
+
+   //    return timeA - timeB;
+   // });
