@@ -38,7 +38,7 @@ You can view the live demo of the application here:
 ![Login form](images/login.png)
 
 ## Profile
-![profile view](images/profle.png)
+![profile view](images/profile.png)
 
 
 ### Prerequisites
