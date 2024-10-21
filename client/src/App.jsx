@@ -119,11 +119,26 @@ function App() {
       // sorted.sort((a, b) => a.time.localeCompare(b.time));
       // Sort by date first, then by time within those dates
       sorted.sort((a, b) => {
-         // Convert date strings from 'DD/MM/YYYY' to 'YYYY-MM-DD'
+         // Convert date strings from 'DD/MM/YYYY' to 'YYYY-MM-DD' and create Date objects
          const dateA = new Date(a.date.split('/').reverse().join('-') + ' ' + a.time);
          const dateB = new Date(b.date.split('/').reverse().join('-') + ' ' + b.time);
 
-         // First, sort by date
+         // Get the current date without time (compare only dates)
+         const currentDate = new Date();
+         const currentDateString = `${String(currentDate.getDate()).padStart(2, '0')}/${String(
+            currentDate.getMonth() + 1
+         ).padStart(2, '0')}/${currentDate.getFullYear()}`;
+         const currentDateFormatted = new Date(currentDateString.split('/').reverse().join('-')); // Current date without time
+
+         // Check if the dates have exceeded the current date
+         const aExceeded = dateA < currentDateFormatted;
+         const bExceeded = dateB < currentDateFormatted;
+
+         // First, sort exceeded tasks on top
+         if (aExceeded && !bExceeded) return -1;
+         if (!aExceeded && bExceeded) return 1;
+
+         // If both are exceeded or both are upcoming, sort by date
          if (dateA < dateB) return -1;
          if (dateA > dateB) return 1;
 
