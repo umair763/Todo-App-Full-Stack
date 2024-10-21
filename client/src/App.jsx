@@ -116,12 +116,11 @@ function App() {
    if (sortby === 'Task') {
       sorted.sort((a, b) => a.task.localeCompare(b.task));
    } else if (sortby === 'time') {
-      // sorted.sort((a, b) => a.time.localeCompare(b.time));
       // Sort by date first, then by time within those dates
       sorted.sort((a, b) => {
          // Convert date strings from 'DD/MM/YYYY' to 'YYYY-MM-DD' and create Date objects
-         const dateA = new Date(a.date.split('/').reverse().join('-') + ' ' + a.time);
-         const dateB = new Date(b.date.split('/').reverse().join('-') + ' ' + b.time);
+         const dateA = new Date(a.date.split('/').reverse().join('-'));
+         const dateB = new Date(b.date.split('/').reverse().join('-'));
 
          // Get the current date without time (compare only dates)
          const currentDate = new Date();
@@ -138,24 +137,37 @@ function App() {
          if (aExceeded && !bExceeded) return -1;
          if (!aExceeded && bExceeded) return 1;
 
-         // If both are exceeded or both are upcoming, sort by date
+         // If both are either exceeded or both are upcoming, sort by date
          if (dateA < dateB) return -1;
          if (dateA > dateB) return 1;
 
-         // If dates are the same, sort by time (convert to 24-hour format first)
-         const timeA = convertTo24HourFormat(a.time); // Convert timeA to 24-hour format
-         const timeB = convertTo24HourFormat(b.time); // Convert timeB to 24-hour format
-
-         // Compare hours first, then minutes if hours are the same
-         if (timeA.hours < timeB.hours) return -1;
-         if (timeA.hours > timeB.hours) return 1;
-         if (timeA.minutes < timeB.minutes) return -1;
-         if (timeA.minutes > timeB.minutes) return 1;
-
-         return 0; // Dates and times are the same
+         // If dates are the same, sort by time (12-hour format, no conversion needed)
+         return compareTimes(a.time, b.time); // Compare directly using 12-hour logic
       });
    }
 
+   // Function to compare two 12-hour times
+   function compareTimes(timeA, timeB) {
+      // Split the time and AM/PM part
+      const [timePartA, modifierA] = timeA.split(' ');
+      const [timePartB, modifierB] = timeB.split(' ');
+
+      // If one is AM and the other is PM, AM comes first
+      if (modifierA !== modifierB) {
+         return modifierA === 'AM' ? -1 : 1;
+      }
+
+      // If both are the same (AM/AM or PM/PM), compare hours and minutes
+      const [hourA, minuteA] = timePartA.split(':').map(Number);
+      const [hourB, minuteB] = timePartB.split(':').map(Number);
+
+      // Compare hours first
+      if (hourA !== hourB) return hourA - hourB;
+
+      // Compare minutes if hours are the same
+      return minuteA - minuteB;
+   }
+   
    let searched = sorted;
    if (searchtask) {
       searched = sorted.filter((el) => el.task.toLowerCase().includes(searchtask.toLowerCase()));
