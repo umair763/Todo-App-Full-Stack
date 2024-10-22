@@ -108,52 +108,54 @@ function App() {
       // Sort tasks alphabetically by task name
       sorted.sort((a, b) => a.task.localeCompare(b.task));
    } else if (sortby === 'time') {
-      // Sort by date first, then by time within those dates
+      // Sort tasks by date and time in ascending order
       sorted.sort((a, b) => {
-         // Convert date strings from 'DD/MM/YYYY' to 'YYYY-MM-DD' and create Date objects for comparison
-         const dateA = new Date(a.date.split('/').reverse().join('-'));
-         const dateB = new Date(b.date.split('/').reverse().join('-'));
+         // Compare dates first
+         const dateA = convertToDateFormat(a.date); // Convert stored format
+         const dateB = convertToDateFormat(b.date);
 
-         // Get the current date
-         const currentDate = new Date();
+         // Split into [day, month, year]
+         const [dayA, monthA, yearA] = dateA.split('/').map(Number);
+         const [dayB, monthB, yearB] = dateB.split('/').map(Number);
 
-         // Check if the dates have exceeded the current date
-         const aExceeded = dateA < currentDate;
-         const bExceeded = dateB < currentDate;
+         // Create Date objects to compare
+         const fullDateA = new Date(yearA, monthA - 1, dayA); // JS months are 0-indexed
+         const fullDateB = new Date(yearB, monthB - 1, dayB);
 
-         // First, sort exceeded tasks on top (tasks in the past)
-         if (aExceeded && !bExceeded) return -1;
-         if (!aExceeded && bExceeded) return 1;
+         // Compare by date
+         if (fullDateA > fullDateB) return 1;
+         if (fullDateA < fullDateB) return -1;
 
-         // If both are either exceeded or both are upcoming, sort by date
-         if (dateA < dateB) return -1;
-         if (dateA > dateB) return 1;
+         // If dates are the same, compare time
+         const timeA = convertTo12HourFormat(a.time); // 12-hour format
+         const timeB = convertTo12HourFormat(b.time);
 
-         // If dates are the same, sort by time (12-hour format, no conversion needed)
-         return compareTimes(a.time, b.time);
+         return compare12HourTimes(timeA, timeB);
       });
    }
 
    // Function to compare two 12-hour formatted times
-   function compareTimes(timeA, timeB) {
-      // Split the time and AM/PM part
-      const [timePartA, modifierA] = timeA.split(' ');
-      const [timePartB, modifierB] = timeB.split(' ');
+   function compare12HourTimes(timeA, timeB) {
+      // Split time into [hours, minutes AM/PM]
+      const [timeStrA, periodA] = timeA.split(' ');
+      const [timeStrB, periodB] = timeB.split(' ');
 
-      // If one is AM and the other is PM, AM comes first
-      if (modifierA !== modifierB) {
-         return modifierA === 'AM' ? -1 : 1;
-      }
+      let [hoursA, minutesA] = timeStrA.split(':').map(Number);
+      let [hoursB, minutesB] = timeStrB.split(':').map(Number);
 
-      // If both are the same (AM/AM or PM/PM), compare hours and minutes
-      const [hourA, minuteA] = timePartA.split(':').map(Number);
-      const [hourB, minuteB] = timePartB.split(':').map(Number);
+      // Convert to 24-hour format based on AM/PM
+      if (periodA === 'PM' && hoursA !== 12) hoursA += 12;
+      if (periodA === 'AM' && hoursA === 12) hoursA = 0;
+
+      if (periodB === 'PM' && hoursB !== 12) hoursB += 12;
+      if (periodB === 'AM' && hoursB === 12) hoursB = 0;
 
       // Compare hours first
-      if (hourA !== hourB) return hourA - hourB;
+      if (hoursA > hoursB) return 1;
+      if (hoursA < hoursB) return -1;
 
-      // Compare minutes if hours are the same
-      return minuteA - minuteB;
+      // If hours are the same, compare minutes
+      return minutesA - minutesB;
    }
 
    let searched = sorted;
