@@ -14,6 +14,7 @@ function App() {
    const [sortby, setSortBy] = useState('sortby');
    const [searchtask, setSearchTask] = useState('');
    const [islogin, setlogin] = useState(false);
+   const [isexceeded, setIFexceeded] = useState(false);
 
    useEffect(() => {
       const fetchTasks = async () => {
@@ -24,7 +25,7 @@ function App() {
             }
 
             // const response = await fetch('http://localhost:5000/api/tasks', {
-            const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
+               const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
                headers: {
                   Authorization: `Bearer ${token}`, // Ensure 'Bearer' is included
                },
@@ -62,7 +63,7 @@ function App() {
 
    function handleAddNewTasks(task) {
       // fetch('http://localhost:5000/api/tasks', {
-      fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
+         fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ function App() {
    const handleDeleteTask = async (taskId) => {
       try {
          // const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
-         const response = await fetch(`https://todo-app-full-stack-opal.vercel.app/api/tasks/${taskId}`, {
+            const response = await fetch(`https://todo-app-full-stack-opal.vercel.app/api/tasks/${taskId}`, {
             // Add `/tasks/` before taskId
             method: 'DELETE',
             headers: {
@@ -136,16 +137,14 @@ function App() {
       });
    }
 
-   // Example usage in your React sorting logic
    let sorted = [...tasks]; // Ensure this is always an array
 
    if (sortby === 'Task') {
       // Sort tasks alphabetically by task name
       sorted.sort((a, b) => a.task.localeCompare(b.task));
-   } else if (sortby === 'time') {
+   } else if (sortby === 'Time') {
       // Now sorting tasks by time
-      const sortedTasks = sortByDateTime(tasks);
-      console.log(sortedTasks);
+      sortByDateTime(tasks);
    }
 
    let searched = sorted;
@@ -173,7 +172,7 @@ function App() {
                         setSort={setSortBy}
                         setSearch={setSearchTask}
                      />
-                     <TodoListParser todolist={searched} />
+                     <TodoListParser todolist={searched} setexceeded={isexceeded} settask={tasks} />
                   </div>
 
                   <div className="right-side">

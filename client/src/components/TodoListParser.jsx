@@ -1,21 +1,69 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './AllComponentsStyle.css';
 import DisplayTodoList from './DisplayTodoList';
 
+// Function to check if a task has exceeded its deadline
+function isDeadlineExceeded(task) {
+   const now = new Date(); 
+   const taskDateTime = convertToComparableDateTime(task.date, task.time); 
+
+   // Extract just the date part from the current time for comparison (ignoring the time part)
+   const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+   // Extract just the date part from the task date for comparison (ignoring the time part)
+   const taskDateOnly = new Date(taskDateTime.getFullYear(), taskDateTime.getMonth(), taskDateTime.getDate());
+
+   // If the task date is before today, it's considered exceeded
+   if (taskDateOnly < nowDateOnly) {
+      return true;
+   }
+
+   // If the task date is today, it hasn't exceeded yet (we check full day, not time)
+   if (taskDateOnly.getTime() === nowDateOnly.getTime()) {
+      return false; // Still within today's deadline
+   }
+
+   // If the task is in the future, it's not exceeded
+   return false;
+}
+
+// Convert date and time to comparable Date object
+function convertToComparableDateTime(date, time) {
+   const [day, month, year] = date.split('/');
+   let [hours, minutes, ampm] = time.match(/(\d+):(\d+)\s(AM|PM)/).slice(1, 4);
+
+   hours = parseInt(hours);
+   if (ampm === 'PM' && hours < 12) hours += 12;
+   if (ampm === 'AM' && hours === 12) hours = 0;
+
+   return new Date(year, month - 1, day, hours, minutes);
+}
+
 function TodoListParser({ todolist, searched }) {
-   // Ensure both todolist and searched are arrays
    const validTodoList = Array.isArray(todolist) ? todolist : [];
    const validSearchedList = Array.isArray(searched) ? searched : [];
-
-   // Check if searched is not empty or null
    const displayList = validSearchedList.length > 0 ? validSearchedList : validTodoList;
+
+   // Use state to store whether each task has exceeded the deadline
+   const [exceededStatuses, setExceededStatuses] = useState([]);
+
+   useEffect(() => {
+      // Calculate exceeded statuses for all tasks and store them in state
+      const statuses = displayList.map((task) => isDeadlineExceeded(task));
+      setExceededStatuses(statuses);
+   }, [displayList]); // Recalculate whenever the displayed list changes
 
    return (
       <>
-         {' '}
          <div className="scrollableContainer">
             {displayList.length > 0 ? (
-               displayList.map((list, i) => <DisplayTodoList list={list} key={list._id || i} />)
+               displayList.map((list, i) => (
+                  <DisplayTodoList
+                     key={list._id || i}
+                     list={list}
+                     isexceeded={exceededStatuses[i]} // Pass the exceeded status for each task
+                  />
+               ))
             ) : (
                <NoTasksMessage />
             )}

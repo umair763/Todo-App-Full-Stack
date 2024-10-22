@@ -1,7 +1,7 @@
 import { useState } from 'react';
 // import './styles/DisplayTodoList.css';
 
-function DisplayTodoList({ list }) {
+function DisplayTodoList({ list, isexceeded }) {
    const [marked, setMarked] = useState(false);
 
    function handlemarked() {
@@ -30,13 +30,18 @@ function DisplayTodoList({ list }) {
                {list.task}
             </p>
             <div className="time flex justify-between items-center">
-               <p
-                  className={`${
-                     marked ? 'line-through' : ''
-                  } font-bold gap-2 text-left sm:text-base font-caros-light lg:text-md`}
-               >
-                  {list.date}
-               </p>
+               <div className="flex flex-col items-start ">
+                  <p
+                     className={`${
+                        marked ? 'line-through' : ''
+                     } font-bold text-left sm:text-base font-caros-light lg:text-md`}
+                  >
+                     {list.date}
+                  </p>
+                  <p className="font-bold text-left sm:text-base text-red-700 font-caros-light lg:text-md">
+                     {isexceeded ? 'Deadline exceeded' : ''}
+                  </p>
+               </div>
                <p
                   className={`${
                      marked ? 'line-through' : ''
