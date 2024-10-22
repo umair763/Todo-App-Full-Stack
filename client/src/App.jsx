@@ -102,16 +102,18 @@ function App() {
       }
    };
 
+   // Convert date from dd/mm/yyyy format and time from hh:mm AM/PM to a Date object
    function convertToComparableDateTime(date, time) {
-      const [day, month, year] = date.split('/');
-      const [hour, minute, ampm] = time.match(/(\d+):(\d+)\s(AM|PM)/).slice(1, 4);
+      const [day, month, year] = date.split('/'); // dd/mm/yyyy format
+      let [hours, minutes, ampm] = time.match(/(\d+):(\d+)\s(AM|PM)/).slice(1, 4);
 
-      let hours = parseInt(hour);
-      if (ampm === 'PM' && hours < 12) hours += 12; // Convert to 24-hour format
-      if (ampm === 'AM' && hours === 12) hours = 0; // Handle midnight (12 AM)
+      // Convert hours to 24-hour format
+      hours = parseInt(hours);
+      if (ampm === 'PM' && hours < 12) hours += 12;
+      if (ampm === 'AM' && hours == 12) hours = 0; // Handle midnight
 
-      // Create a Date object to compare
-      return new Date(year, month - 1, day, hours, minute);
+      // Create a Date object with the converted values
+      return new Date(year, month - 1, day, hours, minutes);
    }
 
    function sortByDateTime(tasks) {
@@ -119,18 +121,17 @@ function App() {
 
       return tasks.sort((a, b) => {
          // Step 1: Convert task dates and times to comparable formats
-         const dateA = convertToComparableDateTime(a.date, convertTo12HourFormat(a.time));
-         const dateB = convertToComparableDateTime(b.date, convertTo12HourFormat(b.time));
+         const dateA = convertToComparableDateTime(a.date, a.time);
+         const dateB = convertToComparableDateTime(b.date, b.time);
 
-         // Step 2: Compare dates
-         if (dateA < now && dateB >= now) return -1; // Date A is exceeded, so it comes first
-         if (dateA >= now && dateB < now) return 1; // Date B is exceeded, so it comes first
+         // Step 2: Compare by date (earlier date comes first)
+         if (dateA < now && dateB >= now) return -1; // A has exceeded, comes first
+         if (dateA >= now && dateB < now) return 1; // B has exceeded, comes first
 
-         // Step 3: If both are exceeded or both are upcoming, compare by date
          if (dateA < dateB) return -1;
          if (dateA > dateB) return 1;
 
-         // Step 4: If dates are the same, compare by time
+         // Step 3: If dates are equal, compare by time
          return dateA - dateB;
       });
    }
@@ -142,8 +143,9 @@ function App() {
       // Sort tasks alphabetically by task name
       sorted.sort((a, b) => a.task.localeCompare(b.task));
    } else if (sortby === 'time') {
-      // Sort by time logic here
-      sorted = sortByDateTime(sorted);
+      // Now sorting tasks by time
+      const sortedTasks = sortByDateTime(tasks);
+      console.log(sortedTasks);
    }
 
    let searched = sorted;
