@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 function DisplayTodoList({ list }) {
    const [marked, setMarked] = useState(false);
-   const [exceededDate, setexceededDate] = useState(false);
 
    function handlemarked() {
       setMarked((show) => !show);
@@ -11,15 +10,15 @@ function DisplayTodoList({ list }) {
 
    return (
       <>
-         <div className="listbar grid grid-cols-[30px,1fr,1fr] w-[98%] px-4 py-2 mb-2 mt-2 font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90 items-center">
+         <div className="listbar grid grid-cols-[30px,fr,1fr] w-[98%] px-4 py-2 mb-2 mt-2 font-caros-light rounded-lg text-[#1D1D1D] bg-[#C8F0F3]/90  items-center">
             <input
                type="radio"
                className={`${
                   list.color === 'red'
-                     ? 'w-4 h-4 rounded-full cursor-pointer appearance-none bg-red-600 border-red-600'
+                     ? 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-red-600 border-red-600'
                      : list.color === 'yellow'
-                     ? 'w-4 h-4 rounded-full cursor-pointer appearance-none bg-yellow-400 border-yellow-400'
-                     : 'w-4 h-4 rounded-full cursor-pointer appearance-none bg-green-600 border-green-600'
+                     ? 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-yellow-400 border-yellow-400'
+                     : 'w-4 h-4  rounded-full cursor-pointer appearance-none bg-green-600 border-green-600'
                }`}
             />
 
@@ -30,7 +29,7 @@ function DisplayTodoList({ list }) {
             >
                {list.task}
             </p>
-            <div className="time flex flex-col justify-between items-start">
+            <div className="time flex justify-between items-center">
                <p
                   className={`${
                      marked ? 'line-through' : ''
@@ -38,11 +37,6 @@ function DisplayTodoList({ list }) {
                >
                   {list.date}
                </p>
-               {exceededDate && (
-                  <p className="text-red-600 text-xs mt-1">Date exceeded</p>
-               )}
-            </div>
-            <div className="time flex justify-between items-center">
                <p
                   className={`${
                      marked ? 'line-through' : ''
