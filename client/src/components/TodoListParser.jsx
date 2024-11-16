@@ -5,23 +5,27 @@ import DisplayTodoList from './DisplayTodoList';
 // Function to check if a task has exceeded its deadline
 function isDeadlineExceeded(task) {
    const now = new Date(); // Current date and time
-   const taskDateTime = convertToComparableDateTime(task.date, task.time); // Convert task date and time to Date object
+   const taskDateTime = convertToComparableDateTime(task.date, task.time);
 
-   // Compare the entire Date object (date and time) directly
-   return taskDateTime < now; // If the task's DateTime is before the current DateTime, it's exceeded
-}
+   // Extract just the date part from the current time for comparison (ignoring the time part)
+   const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-// Convert date and time to comparable Date object
-function convertToComparableDateTime(date, time) {
-   const [day, month, year] = date.split('/'); // Split DD/MM/YYYY
-   let [hours, minutes, ampm] = time.match(/(\d+):(\d+)\s(AM|PM)/).slice(1, 4);
+   // Extract just the date part from the task date for comparison (ignoring the time part)
+   const taskDateOnly = new Date(taskDateTime.getFullYear(), taskDateTime.getMonth(), taskDateTime.getDate());
 
-   hours = parseInt(hours, 10); // Convert hours to integer
-   if (ampm === 'PM' && hours < 12) hours += 12; // Adjust PM hours
-   if (ampm === 'AM' && hours === 12) hours = 0; // Adjust midnight
+   // If the task date is before today, it's considered exceeded
+   if (taskDateOnly < nowDateOnly) {
+      return true;
+   }
 
-   // Create a Date object using the parsed components
-   return new Date(year, month - 1, day, hours, minutes);
+   // If the task date is today, check the time
+   if (taskDateOnly.getTime() === nowDateOnly.getTime()) {
+      // Compare times
+      return taskDateTime < now; // If the task time is earlier than the current time, it's exceeded
+   }
+
+   // If the task is in the future, it's not exceeded
+   return false;
 }
 
 // Convert date and time to comparable Date object
