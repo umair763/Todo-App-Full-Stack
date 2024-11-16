@@ -30,7 +30,7 @@ function DeleteTaskForm({ tasks, setisDeleteFormVisible, deleteTask }) {
                   <option value="">Select a task</option>
                   {tasks.map((task) => (
                      <option key={task._id} value={task._id}>
-                        {task.task} ({task.date})
+                        {task.task} ({task.date}) ({task.time})
                      </option>
                   ))}
                </select>
