@@ -4,39 +4,38 @@ const multer = require("multer");
 const User = require("../models/userModel");
 const { OAuth2Client } = require("google-auth-library");
 
-// const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "your_google_client_id";
 const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
+// Google Sign-In
 exports.googleSignIn = async (req, res) => {
     const { token } = req.body;
 
     try {
-        // Verify Google ID token
         const ticket = await oauthClient.verifyIdToken({
             idToken: token,
             audience: GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const { email, name, picture, sub } = payload;
+        const { email, name, picture } = payload;
 
-        // Check if the user already exists
         let user = await User.findOne({ email });
         if (!user) {
-            // Register the user if not found
-            const hashedPassword = await bcrypt.hash(sub, 10); // Use Google sub as password for simplicity
+            // Register new Google user
             user = new User({
                 username: name,
                 email,
-                password: hashedPassword,
+                password: null, // Google users do not need a password
                 picture,
+                gender: null,
+                occupation: null,
+                organization: null,
             });
             await user.save();
         }
 
-        // Generate JWT for the user
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
-
         res.status(200).json({ token: jwtToken });
     } catch (error) {
         console.error("Google Sign-In Error:", error.message);

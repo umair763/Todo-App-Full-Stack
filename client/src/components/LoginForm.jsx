@@ -279,8 +279,10 @@ function LoginForm({ setlogin }) {
          if (response.ok) {
             localStorage.setItem('token', data.token);
             setlogin(true);
-         } else setError(data.message || 'Google Sign-In failed');
-      } catch {
+         } else {
+            setError(data.message || 'Google Sign-In failed');
+         }
+      } catch (error) {
          setError('An error occurred during Google Sign-In.');
       }
    };
@@ -323,4 +325,3 @@ function LoginForm({ setlogin }) {
 }
 
 export default LoginForm;
-

@@ -155,7 +155,6 @@
 
 // export default UserProfile;
 
-
 import React, { useEffect, useState } from 'react';
 
 function UserProfile({ setlogin }) {
@@ -202,50 +201,65 @@ function UserProfile({ setlogin }) {
       localStorage.removeItem('token');
       setlogin(false);
    };
-
+   const isGoogleUser = !userDetails.gender && !userDetails.occupation && !userDetails.organization;
    return (
-      <div className="container mx-auto p-3 max-w-6xl">
-         <div className="flex justify-center mb-8">
-            <div className="rounded-full bg-[#9df7f7] p-2 shadow-md">
-               {userDetails.picture ? (
-                  <img src={userDetails.picture} alt="Profile" className="w-36 h-36 rounded-full object-cover" />
-               ) : (
-                  <div className="w-36 h-36 rounded-full bg-gray-200 flex items-center justify-center">No Image</div>
-               )}
-            </div>
-         </div>
-
-         <div className="bg-[#9df7f7] p-3 rounded-xl shadow-lg">
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Name: {userDetails.username}
-            </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Email: {userDetails.email}
-            </p>
-
-            {registrationType === 'manual' && (
-               <>
-                  <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-                     Gender: {userDetails.gender || 'Not specified'}
-                  </p>
-                  <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-                     Occupation: {userDetails.occupation || 'Not specified'}
-                  </p>
-                  <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-                     Organization: {userDetails.organization || 'Not specified'}
-                  </p>
-               </>
-            )}
-
-            <button
-               onClick={handleLogout}
-               className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
-            >
-               Logout
-            </button>
-         </div>
+      <div className="user-profile">
+         <img src={userDetails.picture} alt="Profile" />
+         <p>Name: {userDetails.username}</p>
+         <p>Email: {userDetails.email}</p>
+         {!isGoogleUser && (
+            <>
+               <p>Gender: {userDetails.gender || 'Not specified'}</p>
+               <p>Occupation: {userDetails.occupation || 'Not specified'}</p>
+               <p>Organization: {userDetails.organization || 'Not specified'}</p>
+            </>
+         )}
+         <button onClick={handleLogout}>Logout</button>
       </div>
    );
+   // return (
+   //    <div className="container mx-auto p-3 max-w-6xl">
+   //       <div className="flex justify-center mb-8">
+   //          <div className="rounded-full bg-[#9df7f7] p-2 shadow-md">
+   //             {userDetails.picture ? (
+   //                <img src={userDetails.picture} alt="Profile" className="w-36 h-36 rounded-full object-cover" />
+   //             ) : (
+   //                <div className="w-36 h-36 rounded-full bg-gray-200 flex items-center justify-center">No Image</div>
+   //             )}
+   //          </div>
+   //       </div>
+
+   //       <div className="bg-[#9df7f7] p-3 rounded-xl shadow-lg">
+   //          <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+   //             Name: {userDetails.username}
+   //          </p>
+   //          <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+   //             Email: {userDetails.email}
+   //          </p>
+
+   //          {registrationType === 'manual' && (
+   //             <>
+   //                <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+   //                   Gender: {userDetails.gender || 'Not specified'}
+   //                </p>
+   //                <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+   //                   Occupation: {userDetails.occupation || 'Not specified'}
+   //                </p>
+   //                <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+   //                   Organization: {userDetails.organization || 'Not specified'}
+   //                </p>
+   //             </>
+   //          )}
+
+   //          <button
+   //             onClick={handleLogout}
+   //             className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
+   //          >
+   //             Logout
+   //          </button>
+   //       </div>
+   //    </div>
+   // );
 }
 
 export default UserProfile;
