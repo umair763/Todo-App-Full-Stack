@@ -195,16 +195,21 @@
 
 // export default LoginForm;
 
-import { GoogleLogin } from '@react-oauth/google';
+
+
 import { useState, useEffect } from 'react';
 import Registeruser from './Registeruser';
+import { GoogleLogin } from '@react-oauth/google';
 
 function LoginForm({ setlogin }) {
    const [showRegister, setShowRegister] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
-   const [loading, setLoading] = useState(true); // Add loading state
+   const [loading, setLoading] = useState(true);
+
+   // States to store Google user information
+   const [googleUser, setGoogleUser] = useState(null);
 
    // Remove token when the page is closed
    useEffect(() => {
@@ -225,7 +230,6 @@ function LoginForm({ setlogin }) {
          const token = localStorage.getItem('token');
          if (token) {
             try {
-               // Validate the token with the backend
                const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                   method: 'GET',
                   headers: {
@@ -252,12 +256,12 @@ function LoginForm({ setlogin }) {
       checkToken();
    }, [setlogin]);
 
+   // Handle traditional login submission
    const handleSubmit = async (e) => {
       e.preventDefault();
       setError('');
 
       try {
-         // const response = await fetch('http://localhost:5000/api/users/login', {
          const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
             method: 'POST',
             headers: {
@@ -279,18 +283,37 @@ function LoginForm({ setlogin }) {
       }
    };
 
+   // Google login success handler
+   const handleGoogleLoginSuccess = (response) => {
+      const userObject = jwt_decode(response.credential); // Decode the JWT token returned by Google
+      console.log('Google login success:', userObject);
+
+      // Save user info in state
+      setGoogleUser({
+         username: userObject.name,
+         email: userObject.email,
+         gender: userObject.gender || 'Not provided',
+         profilePicture: userObject.picture,
+      });
+
+      // Optionally, send the token to the backend for further validation
+      localStorage.setItem('token', response.credential); // Save Google token in localStorage
+      setlogin(true);
+   };
+
+   // Google login failure handler
+   const handleGoogleLoginFailure = (error) => {
+      console.error('Google login error:', error);
+      setError('Google login failed. Please try again.');
+   };
+
    if (loading) {
       return (
          <>
             <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
                <div className="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
-                  {/* Scan line */}
                   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
-
-                  {/* Glowing border */}
                   <div className="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
-
-                  {/* Loading text */}
                   <div className="relative z-10 text-white text-lg font-semibold">Please wait...</div>
                </div>
             </div>
@@ -329,10 +352,6 @@ function LoginForm({ setlogin }) {
          </>
       );
    }
-   clientId = '726557724768-qplqm3h12oea644a7pqmnvf26umqssfr.apps.googleusercontent.com';
-   const onSuccess = (red) => {
-      console.log('Login success');
-   };
 
    return (
       <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
@@ -386,13 +405,11 @@ function LoginForm({ setlogin }) {
                         >
                            Register
                         </button>
+                        {/* Google Sign-In Button */}
                         <GoogleLogin
-                           clientId={clientId}
-                           buttonText="login"
-                           onSuccess={onSuccess}
-                           onFailure={onfailure}
-                           cookiePolicy={'single_host_origin'}
-                           isSignIn={true}
+                           onSuccess={handleGoogleLoginSuccess}
+                           onFailure={handleGoogleLoginFailure}
+                           useOneTap
                         />
                      </div>
                   </form>
