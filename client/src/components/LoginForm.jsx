@@ -194,7 +194,7 @@
 // }
 
 // export default LoginForm;
-import jwt_decode from 'jwt-decode'; // Ensure this is installed via `npm install jwt-decode`
+import { jwtDecode } from 'jwt-decode';
 import { useState, useEffect } from 'react';
 import Registeruser from './Registeruser';
 import { GoogleLogin } from '@react-oauth/google';
