@@ -2,6 +2,9 @@ const express = require("express");
 const { registerUser, loginUser, profile } = require("../controllers/userControllers");
 const authenticator = require("../middleware/auth");
 const router = express.Router();
+const { googleLogin } = require("../userControllers");
+
+router.post("/google-login", googleLogin);
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);

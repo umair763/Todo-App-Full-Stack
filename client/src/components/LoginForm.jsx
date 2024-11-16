@@ -194,7 +194,7 @@
 // }
 
 // export default LoginForm;
-
+import jwt_decode from 'jwt-decode'; // Ensure this is installed via `npm install jwt-decode`
 import { useState, useEffect } from 'react';
 import Registeruser from './Registeruser';
 import { GoogleLogin } from '@react-oauth/google';
@@ -253,6 +253,7 @@ function LoginForm({ setlogin }) {
 
       checkToken();
    }, [setlogin]);
+   
 
    // Handle traditional login submission
    const handleSubmit = async (e) => {
@@ -282,22 +283,39 @@ function LoginForm({ setlogin }) {
    };
 
    // Google login success handler
-   const handleGoogleLoginSuccess = (response) => {
-      window.open('https://todo-app-full-stack-frontend.vercel.app/auth/google/callback', '_self');
-      const userObject = jwt_decode(response.credential); // Decode the JWT token returned by Google
-      console.log('Google login success:', userObject);
+   const handleGoogleLoginSuccess = async (response) => {
+      try {
+         // Decode the JWT token provided by Google
+         const userObject = jwt_decode(response.credential);
 
-      // Save user info in state
-      setGoogleUser({
-         username: userObject.name,
-         email: userObject.email,
-         gender: userObject.gender || 'Not provided',
-         profilePicture: userObject.picture,
-      });
+         const googleUser = {
+            username: userObject.name,
+            email: userObject.email,
+            picture: userObject.picture,
+         };
 
-      // Optionally, send the token to the backend for further validation
-      localStorage.setItem('token', response.credential); // Save Google token in localStorage
-      setlogin(true);
+         // Save Google user details to the backend database
+         const backendResponse = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/google-login', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(googleUser),
+         });
+
+         const result = await backendResponse.json();
+
+         if (backendResponse.ok) {
+            // Save the token returned by the backend
+            localStorage.setItem('token', result.token);
+            setlogin(true); // Log the user in
+         } else {
+            setError(result.message || 'Google login failed.');
+         }
+      } catch (error) {
+         setError('An error occurred during Google login.');
+         console.error(error);
+      }
    };
 
    // Google login failure handler

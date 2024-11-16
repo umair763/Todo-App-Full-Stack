@@ -144,3 +144,31 @@ exports.profile = async (req, res) => {
         res.status(500).json({ message: "Error fetching user profile", error: error.message });
     }
 };
+
+exports.googleLogin = async (req, res) => {
+    const { username, email, picture } = req.body;
+
+    try {
+        // Check if the user already exists
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // If user doesn't exist, create a new one
+            user = new User({
+                username,
+                email,
+                picture, // Store Google profile picture
+                password: null, // Set password to null for Google users
+            });
+
+            await user.save();
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
+
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(500).json({ message: "Google login failed", error: error.message });
+    }
+};
