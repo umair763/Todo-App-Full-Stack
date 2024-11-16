@@ -195,8 +195,6 @@
 
 // export default LoginForm;
 
-
-
 import { useState, useEffect } from 'react';
 import Registeruser from './Registeruser';
 import { GoogleLogin } from '@react-oauth/google';
@@ -285,6 +283,7 @@ function LoginForm({ setlogin }) {
 
    // Google login success handler
    const handleGoogleLoginSuccess = (response) => {
+      window.open('https://todo-app-full-stack-frontend.vercel.app/auth/google/callback', '_self');
       const userObject = jwt_decode(response.credential); // Decode the JWT token returned by Google
       console.log('Google login success:', userObject);
 
