@@ -84,8 +84,8 @@ function LoginForm({ setlogin }) {
    if (loading) {
       return (
          <>
-            <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
-               <div className="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
+            <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
+               <div className="relative w-full h-[500px] flex items-center justify-center rounded-md overflow-hidden p-5">
                   {/* Scan line */}
                   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
 
@@ -125,7 +125,7 @@ function LoginForm({ setlogin }) {
                      .animate-glow {
                         animation: glow 3s infinite ease-in-out;
                      }
-                  }
+       style      }
                `}
             </style>
          </>
