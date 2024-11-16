@@ -3,7 +3,21 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
- 
+const passport = require("passport");
+require("./middleware/passport"); // Import Passport configuration
+const session = require("express-session");
+// Enable sessions for OAuth
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'session_secret',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 
