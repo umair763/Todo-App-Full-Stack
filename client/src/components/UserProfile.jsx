@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 function UserProfile({ setlogin }) {
    const [userDetails, setUserDetails] = useState({
       username: '',
@@ -9,10 +8,8 @@ function UserProfile({ setlogin }) {
       occupation: '',
       organization: '',
    });
-
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
-
    useEffect(() => {
       const fetchUserProfile = async () => {
          try {
@@ -20,7 +17,6 @@ function UserProfile({ setlogin }) {
             if (!token) {
                throw new Error('No token found');
             }
-
             // const response = await fetch('http://localhost:5000/api/users/profile', {
             const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                method: 'GET',
@@ -29,12 +25,10 @@ function UserProfile({ setlogin }) {
                   'Content-Type': 'application/json',
                },
             });
-
             if (!response.ok) {
                const errorData = await response.json();
                throw new Error(`Error fetching profile: ${errorData.message}`);
             }
-
             const data = await response.json();
             setUserDetails({
                username: data.username,
@@ -51,25 +45,20 @@ function UserProfile({ setlogin }) {
             setTimeout(() => setLoading(false), 1000);
          }
       };
-
       fetchUserProfile();
    }, []);
-
    const handleLogout = () => {
       localStorage.removeItem('token');
       setlogin(false);
    };
-
    if (loading) {
       return (
          <>
             <div class="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
                {/* <!-- Scan line --> */}
                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
-
                {/* <!-- Glowing border --> */}
                <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
-
                {/* <!-- Loading text --> */}
                <div class="relative z-10 text-white text-lg font-semibold">Fetching Profile...</div>
             </div>
@@ -84,7 +73,6 @@ function UserProfile({ setlogin }) {
                            transform: translateY(100%);
                         }
                      }
-
                      @keyframes glow {
                         0%,
                         100% {
@@ -94,11 +82,9 @@ function UserProfile({ setlogin }) {
                            box-shadow: 0 10px 10px rgb(255, 255, 255);
                         }
                      }
-
                      .animate-scan {
                         animation: scan 2s infinite linear;
                      }
-
                      .animate-glow {
                         animation: glow 3s infinite ease-in-out;
                      }
@@ -108,13 +94,11 @@ function UserProfile({ setlogin }) {
          </>
       );
    }
-
    if (error) {
       return <div>{error}</div>;
    }
-
    return (
-      <div className="container mx-auto p-5 max-w-6xl">
+      <div className="container mx-auto p-3 max-w-6xl">
          <div className="flex justify-center mb-8">
             <div className="rounded-full bg-[#9df7f7] p-2 shadow-md">
                {userDetails.picture ? (
@@ -124,8 +108,7 @@ function UserProfile({ setlogin }) {
                )}
             </div>
          </div>
-
-         <div className="bg-[#9df7f7] p-4 rounded-xl shadow-lg">
+         <div className="bg-[#9df7f7] p-3 rounded-xl shadow-lg">
             <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
                Name: {userDetails.username}
             </p>
@@ -141,7 +124,6 @@ function UserProfile({ setlogin }) {
             <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
                Organization: {userDetails.organization}
             </p>
-
             <button
                onClick={handleLogout}
                className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
@@ -152,5 +134,4 @@ function UserProfile({ setlogin }) {
       </div>
    );
 }
-
 export default UserProfile;
