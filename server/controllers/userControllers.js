@@ -13,13 +13,24 @@ exports.googleSignIn = async (req, res) => {
     const { token } = req.body;
 
     try {
+        if (!token) {
+            console.error("Google Sign-In Error: No token provided");
+            return res.status(400).json({ message: "Google Sign-In failed: No token provided" });
+        }
+
+        // Verify Google ID token
         const ticket = await oauthClient.verifyIdToken({
             idToken: token,
             audience: GOOGLE_CLIENT_ID,
         });
+
         const payload = ticket.getPayload();
         const { email, name, picture } = payload;
 
+        // Debug log for payload
+        console.log("Google Payload:", payload);
+
+        // Check if the user already exists
         let user = await User.findOne({ email });
         if (!user) {
             // Register new Google user
@@ -28,13 +39,11 @@ exports.googleSignIn = async (req, res) => {
                 email,
                 password: null, // Google users do not need a password
                 picture,
-                gender: null,
-                occupation: null,
-                organization: null,
             });
             await user.save();
         }
 
+        // Generate JWT for the user
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
         res.status(200).json({ token: jwtToken });
     } catch (error) {
@@ -42,6 +51,7 @@ exports.googleSignIn = async (req, res) => {
         res.status(500).json({ message: "Google Sign-In failed" });
     }
 };
+
 
 
 const SALT_ROUNDS = 10;

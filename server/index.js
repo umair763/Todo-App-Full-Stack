@@ -8,17 +8,24 @@ const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 
 const corsOptions = {
-    origin: ["https://todo-app-full-stack-frontend.vercel.app"], // Frontend origin
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ["https://todo-app-full-stack-frontend.vercel.app"], // Add frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow OPTIONS for preflight
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
+
+// Explicitly handle OPTIONS preflight requests
+app.options("*", cors(corsOptions)); // Respond to all OPTIONS requests
+
 app.use((req, res, next) => {
-    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
     res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
     next();
 });
+
 
 const app = express();
 app.use(cors());

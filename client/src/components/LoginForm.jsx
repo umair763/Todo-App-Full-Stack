@@ -280,9 +280,11 @@ function LoginForm({ setlogin }) {
             localStorage.setItem('token', data.token);
             setlogin(true);
          } else {
+            console.error('Google Sign-In Failed:', data.message);
             setError(data.message || 'Google Sign-In failed');
          }
       } catch (error) {
+         console.error('Google Sign-In Error:', error.message);
          setError('An error occurred during Google Sign-In.');
       }
    };
