@@ -2,6 +2,48 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const User = require("../models/userModel");
+const { OAuth2Client } = require("google-auth-library");
+
+// const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "your_google_client_id";
+const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+exports.googleSignIn = async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        // Verify Google ID token
+        const ticket = await oauthClient.verifyIdToken({
+            idToken: token,
+            audience: GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { email, name, picture, sub } = payload;
+
+        // Check if the user already exists
+        let user = await User.findOne({ email });
+        if (!user) {
+            // Register the user if not found
+            const hashedPassword = await bcrypt.hash(sub, 10); // Use Google sub as password for simplicity
+            user = new User({
+                username: name,
+                email,
+                password: hashedPassword,
+                picture,
+            });
+            await user.save();
+        }
+
+        // Generate JWT for the user
+        const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
+
+        res.status(200).json({ token: jwtToken });
+    } catch (error) {
+        console.error("Google Sign-In Error:", error.message);
+        res.status(500).json({ message: "Google Sign-In failed" });
+    }
+};
+
 
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
