@@ -157,8 +157,8 @@ function App() {
          {!islogin ? (
             <LoginForm setlogin={setlogin} />
          ) : (
-            <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
-               <div className="w-full max-w-6xl p-5 rounded-xl shadow-lg bg-gradient-to-br from-[#9406E6] to-[#00FFFF] grid grid-cols-1 md:grid-cols-[1.5fr,1fr] lg:grid-cols-[1.5fr,1fr] gap-4">
+            <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-2">
+               <div className="w-full max-w-6xl p-3 rounded-xl shadow-lg bg-gradient-to-br from-[#9406E6] to-[#00FFFF] grid grid-cols-1 md:grid-cols-[1.5fr,1fr] lg:grid-cols-[1.5fr,1fr] gap-4">
                   <div className="div-1">
                      <div className="text">
                         <h1 className="text-4xl text-white font-extrabold mb-4">Todo App</h1>
