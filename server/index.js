@@ -2,13 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-<<<<<<< Updated upstream
-require("dotenv").config();  
- 
-=======
 require("dotenv").config();
 
->>>>>>> Stashed changes
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 

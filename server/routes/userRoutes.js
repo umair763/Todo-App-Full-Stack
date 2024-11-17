@@ -3,7 +3,6 @@ const { createUser, registerUser, loginUser, profile } = require("../controllers
 const authenticator = require("../middleware/auth");
 
 const router = express.Router();
-router.post("/google-signin", googleSignIn);
 
 router.post("/registerG", createUser);
 router.post("/register", registerUser);
