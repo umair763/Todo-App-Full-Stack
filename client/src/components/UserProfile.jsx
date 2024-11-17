@@ -167,13 +167,19 @@ function UserProfile({ setlogin }) {
       occupation: null,
       organization: null,
    });
+<<<<<<< Updated upstream
 
    const [registrationType, setRegistrationType] = useState(''); // 'manual' or 'google'
+=======
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState('');
+>>>>>>> Stashed changes
 
    useEffect(() => {
       const fetchProfile = async () => {
          try {
             const token = localStorage.getItem('token');
+<<<<<<< Updated upstream
             if (!token) throw new Error('No token');
 
             const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
@@ -196,6 +202,43 @@ function UserProfile({ setlogin }) {
       };
 
       fetchProfile();
+=======
+            if (!token) throw new Error('No token found');
+
+            const response = await fetch('http://localhost:5000/api/users/profile', {
+               method: 'GET',
+               headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+               },
+            });
+
+            if (!response.ok) {
+               const errorData = await response.json();
+               throw new Error(`Error fetching profile: ${errorData.message}`);
+            }
+
+            const data = await response.json();
+
+            // Display only limited fields for Google Sign-In users
+            const isGoogleUser = !data.gender && !data.occupation && !data.organization;
+            setUserDetails({
+               username: data.username,
+               email: data.email,
+               picture: data.picture,
+               gender: isGoogleUser ? null : data.gender,
+               occupation: isGoogleUser ? null : data.occupation,
+               organization: isGoogleUser ? null : data.organization,
+            });
+         } catch (err) {
+            setError(`Error fetching user profile: ${err.message}`);
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      fetchUserProfile();
+>>>>>>> Stashed changes
    }, []);
 
    const handleLogout = () => {
@@ -203,6 +246,55 @@ function UserProfile({ setlogin }) {
       setlogin(false);
    };
 
+<<<<<<< Updated upstream
+=======
+   if (loading) {
+      return (
+         <>
+            <div class="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
+               {/* <!-- Scan line --> */}
+               <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
+               {/* <!-- Glowing border --> */}
+               <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
+               {/* <!-- Loading text --> */}
+               <div class="relative z-10 text-white text-lg font-semibold">Fetching Profile...</div>
+            </div>
+            <style jsx>
+               {`
+                  @layer utilities {
+                     @keyframes scan {
+                        0% {
+                           transform: translateY(-100%);
+                        }
+                        100% {
+                           transform: translateY(100%);
+                        }
+                     }
+                     @keyframes glow {
+                        0%,
+                        100% {
+                           box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+                        }
+                        50% {
+                           box-shadow: 0 10px 10px rgb(255, 255, 255);
+                        }
+                     }
+                     .animate-scan {
+                        animation: scan 2s infinite linear;
+                     }
+                     .animate-glow {
+                        animation: glow 3s infinite ease-in-out;
+                     }
+                  }
+               `}
+            </style>
+         </>
+      );
+   }
+   if (error) {
+      return <div>{error}</div>;
+   }
+>>>>>>> Stashed changes
    return (
       <div className="container mx-auto p-3 max-w-6xl">
          <div className="flex justify-center mb-8">
@@ -216,6 +308,7 @@ function UserProfile({ setlogin }) {
          </div>
 
          <div className="bg-[#9df7f7] p-3 rounded-xl shadow-lg">
+<<<<<<< Updated upstream
             <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
                Name: {userDetails.username}
             </p>
@@ -241,6 +334,14 @@ function UserProfile({ setlogin }) {
                onClick={handleLogout}
                className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
             >
+=======
+            <p>Name: {userDetails.username}</p>
+            <p>Email: {userDetails.email}</p>
+            {userDetails.gender && <p>Gender: {userDetails.gender}</p>}
+            {userDetails.occupation && <p>Occupation: {userDetails.occupation}</p>}
+            {userDetails.organization && <p>Organization: {userDetails.organization}</p>}
+            <button onClick={handleLogout} className="bg-red-500 text-white p-2 rounded mt-4">
+>>>>>>> Stashed changes
                Logout
             </button>
          </div>
@@ -249,3 +350,6 @@ function UserProfile({ setlogin }) {
 }
 
 export default UserProfile;
+
+// const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+// const response = await fetch('http://localhost:5000/api/users/profile', {

@@ -1,11 +1,13 @@
 const express = require("express");
-const { registerUser, loginUser, profile } = require("../controllers/userControllers");
+const { createUser, registerUser, loginUser, profile } = require("../controllers/userControllers");
 const authenticator = require("../middleware/auth");
+
 const router = express.Router();
 router.post("/google-signin", googleSignIn);
 
+router.post("/registerG", createUser);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/profile", authenticator, profile); // Protect the profile route with authenticator middleware
+router.get("/profile", authenticator, profile);
 
 module.exports = router;

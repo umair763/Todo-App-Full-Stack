@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
 const User = require("../models/userModel");
 const { OAuth2Client } = require("google-auth-library");
 
+<<<<<<< Updated upstream
 // const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "your_google_client_id";
 const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
@@ -13,10 +13,26 @@ exports.googleSignIn = async (req, res) => {
 
     try {
         // Verify Google ID token
+=======
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "your-google-client-id";
+const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+// Google Sign-In Handler
+exports.createUser = async (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(400).json({ message: "Google token is required." });
+    }
+
+    try {
+        // Verify Google token
+>>>>>>> Stashed changes
         const ticket = await oauthClient.verifyIdToken({
             idToken: token,
             audience: GOOGLE_CLIENT_ID,
         });
+<<<<<<< Updated upstream
         const payload = ticket.getPayload();
         const { email, name, picture, sub } = payload;
 
@@ -30,20 +46,46 @@ exports.googleSignIn = async (req, res) => {
                 email,
                 password: hashedPassword,
                 picture,
+=======
+
+        const payload = ticket.getPayload();
+        const { email, name, picture } = payload;
+
+        // Check if user exists
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Create new user if not found
+            user = new User({
+                username: name,
+                email,
+                picture,
+                password: null, // Password not needed for Google users
+>>>>>>> Stashed changes
             });
             await user.save();
         }
 
+<<<<<<< Updated upstream
         // Generate JWT for the user
+=======
+        // Generate JWT token
+>>>>>>> Stashed changes
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
 
         res.status(200).json({ token: jwtToken });
     } catch (error) {
         console.error("Google Sign-In Error:", error.message);
+<<<<<<< Updated upstream
         res.status(500).json({ message: "Google Sign-In failed" });
     }
 };
 
+=======
+        res.status(500).json({ message: "Google Sign-In failed", error: error.message });
+    }
+};
+>>>>>>> Stashed changes
 
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";

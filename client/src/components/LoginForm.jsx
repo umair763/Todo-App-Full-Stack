@@ -198,6 +198,7 @@
 import { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import Registeruser from './Registeruser';
+import GoogleSignIn from './GoogleSignIn';
 
 function LoginForm({ setlogin }) {
    const [showRegister, setShowRegister] = useState(false);
@@ -224,7 +225,13 @@ function LoginForm({ setlogin }) {
          const token = localStorage.getItem('token');
          if (token) {
             try {
+<<<<<<< Updated upstream
                const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+=======
+               // Validate the token with the backend
+               const response = await fetch('http://localhost:5000/api/users/profile', {
+               // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+>>>>>>> Stashed changes
                   method: 'GET',
                   headers: {
                      Authorization: `Bearer ${token}`,
@@ -248,7 +255,12 @@ function LoginForm({ setlogin }) {
       e.preventDefault();
       setError('');
       try {
+<<<<<<< Updated upstream
          const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
+=======
+            const response = await fetch('http://localhost:5000/api/users/login', {
+            // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
+>>>>>>> Stashed changes
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -290,6 +302,7 @@ function LoginForm({ setlogin }) {
    }
 
    return (
+<<<<<<< Updated upstream
       <div className="login-container">
          {showRegister ? (
             <Registeruser />
@@ -318,6 +331,65 @@ function LoginForm({ setlogin }) {
                <button onClick={() => setShowRegister(true)}>Register</button>
             </>
          )}
+=======
+      <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
+         <div className="bg-gradient-to-br from-[#5d53e7] to-[#ea26fb] justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-xl font-caros-light text-gray-200 min-w-[250px] shadow-xl md:min-w-[400px]">
+            {showRegister ? (
+               <Registeruser />
+            ) : (
+               <>
+                  <h2 className="text-center text-xl font-extrabold">Login form</h2>
+                  <form onSubmit={handleSubmit}>
+                     <div className="flex flex-col justify-center mb-2 font-bold">
+                        <label className="pt-5 pb-3">User name</label>
+                        <input
+                           type="text"
+                           required
+                           className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                        />
+                     </div>
+                     <div className="flex flex-col justify-center mb-2 font-bold">
+                        <label className="pt-5 pb-3">Email</label>
+                        <input
+                           type="email"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                           required
+                           className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                        />
+                     </div>
+                     <div className="flex flex-col justify-center mb-2 font-bold">
+                        <label className="pt-5 pb-3">Password</label>
+                        <input
+                           type="password"
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
+                           required
+                           className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
+                        />
+                     </div>
+                     {error && <p className="text-red-500">{error}</p>}
+                     <div className="flex flex-row gap-3">
+                        <button
+                           type="submit"
+                           className="bg-[#9406e6] text-white rounded-lg p-2 px-6 font-bold hover:bg-[#8306ca] cursor-pointer mt-3"
+                        >
+                           Login
+                        </button>
+                        <button
+                           type="button"
+                           onClick={() => setShowRegister(true)}
+                           className="bg-[#9406e6] text-white rounded-lg p-2 px-6 font-bold hover:bg-[#8306ca] cursor-pointer mt-3"
+                        >
+                           Register
+                        </button>
+                        <GoogleSignIn setlogin={setlogin} />
+                     </div>
+                  </form>
+               </>
+            )}
+         </div>
+>>>>>>> Stashed changes
       </div>
    );
 }
