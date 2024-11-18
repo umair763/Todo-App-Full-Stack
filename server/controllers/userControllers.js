@@ -1,54 +1,74 @@
+const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
 const { OAuth2Client } = require("google-auth-library");
+const User = require("../models/userModel");
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "your-google-client-id";
 const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // Google Sign-In Handler
-exports.createUser = async (req, res) => {
-    const { token } = req.body;
+exports.googleSignIn = async (req, res) => {
+    const { name, email, picture } = req.body;
 
-    if (!token) {
-        return res.status(400).json({ message: "Google token is required." });
+    // Check if essential fields are missing
+    if (!name || !email || !picture) {
+        return res.status(400).json({ error: "Missing required fields (name, email, picture)" });
     }
 
     try {
-        // Verify Google token
-        const ticket = await oauthClient.verifyIdToken({
-            idToken: token,
-            audience: GOOGLE_CLIENT_ID,
-        });
-
-        const payload = ticket.getPayload();
-        const { email, name, picture } = payload;
-
-        // Check if user exists
+        // Check if the user already exists
         let user = await User.findOne({ email });
-
         if (!user) {
-            // Create new user if not found
+            // If the user doesn't exist, create a new one
             user = new User({
-                username: name,
-                email,
-                picture,
-                password: null, // Password not needed for Google users
+                username: name, // Map Google 'name' to 'username'
+                gender: "not specified", // Set default values
+                occupation: "not specified",
+                organization: "not specified",
+                email: email,
+                password: await bcrypt.hash("tempPassword123", 10), // Temp password, hashed
+                picture: picture, // Store the picture URL
             });
+
+            // Save the user to the database
             await user.save();
         }
 
-        // Generate JWT token
+        // Generate a JWT token after user is saved
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
 
-        res.status(200).json({ token: jwtToken });
+        return res.status(200).json({
+            message: "User authenticated successfully",
+            token: jwtToken,
+            user: {
+                username: user.username,
+                email: user.email,
+                picture: user.picture,
+            },
+        });
     } catch (error) {
-        console.error("Google Sign-In Error:", error.message);
-        res.status(500).json({ message: "Google Sign-In failed", error: error.message });
+        console.error("Error during Google sign-in:", error);
+        return res.status(500).json({ error: "Failed to authenticate user" });
     }
 };
+
+// Set file size limit to 1
+const MAX_SIZE = 1024 * 1024 * 1024 * 1024; // 1GB in bytes
+
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: MAX_SIZE },
+    fileFilter: (req, file, cb) => {
+        if (!file.mimetype.startsWith("image/")) {
+            return cb(new Error("Only image files are allowed!"), false);
+        }
+        cb(null, true);
+    },
+});
 
 // User registration
 exports.registerUser = [

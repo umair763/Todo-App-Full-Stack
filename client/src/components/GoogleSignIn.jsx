@@ -4,23 +4,41 @@ import axios from 'axios';
 
 function GoogleSignIn({ setlogin }) {
    const handleLoginSuccess = async (response) => {
+      const { credential } = response;
+
       try {
-         const { credential } = response;
+         // Decode Google token
+         const decodedToken = JSON.parse(atob(credential.split('.')[1]));
 
-         // POST the token to the backend
-         const res = await axios.post('http://localhost:5000/api/users/registerG', { token: credential });
+         console.log('Decoded Google Token:', decodedToken);
 
-         // Save the returned JWT token and set login status
-         const { token } = res.data;
-         localStorage.setItem('token', token);
-         setlogin(true);
+         // User data (matching backend schema)
+         const userData = {
+            name: decodedToken.name, // Mapping name from Google to 'username'
+            email: decodedToken.email,
+            picture: decodedToken.picture,
+            // Include other fields if necessary (gender, occupation, etc.)
+         };
+
+         console.log('Sending User Data:', userData);
+
+         // Send user data to backend to create user and generate JWT
+         const backendResponse = await axios.post('http://localhost:5000/api/users/google-signin', userData);
+
+         console.log('User saved successfully:', backendResponse.data);
+
+         // On success, set the login state to true
+         setlogin(true); // Ensure the app state is updated with login status
+
+         // Store the token in localStorage for future requests
+         localStorage.setItem('token', backendResponse.data.token);
       } catch (error) {
-         console.error('Error during Google login:', error.message);
+         console.error('Error during Google login:', error);
       }
    };
 
    const handleLoginFailure = (error) => {
-      console.error('Google login failed:', error.message);
+      console.error('Google Sign-In failed:', error);
    };
 
    return (
