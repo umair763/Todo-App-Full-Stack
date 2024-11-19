@@ -17,7 +17,6 @@ function GoogleSignIn({ setlogin }) {
             name: decodedToken.name, // Mapping name from Google to 'username'
             email: decodedToken.email,
             picture: decodedToken.picture,
-            // Include other fields if necessary (gender, occupation, etc.)
          };
 
          console.log('Sending User Data:', userData);
@@ -42,7 +41,7 @@ function GoogleSignIn({ setlogin }) {
    };
 
    return (
-      <div>
+      <div className='pt-2'>
          <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginFailure} />
       </div>
    );

@@ -9,35 +9,41 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
+// Google Sign-In Handler// Google Sign-In Handler
+// Required for fetching images
+const fetch = require("node-fetch");
+
 // Google Sign-In Handler
 exports.googleSignIn = async (req, res) => {
     const { name, email, picture } = req.body;
 
-    // Check if essential fields are missing
     if (!name || !email || !picture) {
         return res.status(400).json({ error: "Missing required fields (name, email, picture)" });
     }
 
     try {
-        // Check if the user already exists
         let user = await User.findOne({ email });
+
         if (!user) {
-            // If the user doesn't exist, create a new one
+            // Fetch picture and convert to base64
+            const response = await fetch(picture);
+            const imageBuffer = await response.buffer();
+            const base64Picture = imageBuffer.toString("base64");
+
+            // Create new user
             user = new User({
-                username: name, // Map Google 'name' to 'username'
-                gender: "not specified", // Set default values
-                occupation: "not specified",
-                organization: "not specified",
+                username: name,
+                gender: "",
+                occupation: "",
+                organization: "",
                 email: email,
-                password: await bcrypt.hash("tempPassword123", 10), // Temp password, hashed
-                picture: picture, // Store the picture URL
+                password: await bcrypt.hash("tempPassword123", 10),
+                picture: base64Picture,
             });
 
-            // Save the user to the database
             await user.save();
         }
 
-        // Generate a JWT token after user is saved
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
 
         return res.status(200).json({
@@ -57,6 +63,7 @@ exports.googleSignIn = async (req, res) => {
 
 // Set file size limit to 1
 const MAX_SIZE = 1024 * 1024 * 1024 * 1024; // 1GB in bytes
+const SALT_ROUNDS = 10; // Number of salt rounds for bcrypt
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -69,7 +76,6 @@ const upload = multer({
         cb(null, true);
     },
 });
-
 // User registration
 exports.registerUser = [
     upload.single("picture"), // Handle image uploads

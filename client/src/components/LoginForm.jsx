@@ -9,6 +9,11 @@ function LoginForm({ setlogin }) {
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(true); // Add loading state
+   const [isPasswordVisible, setPasswordVisible] = useState(false);
+
+   const togglePasswordVisibility = () => {
+      setPasswordVisible(!isPasswordVisible);
+   };
 
    // Remove token when the page is closed
    useEffect(() => {
@@ -164,15 +169,25 @@ function LoginForm({ setlogin }) {
                      </div>
                      <div className="flex flex-col justify-center mb-2 font-bold">
                         <label className="pt-5 pb-3">Password</label>
-                        <input
-                           type="password"
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}
-                           required
-                           className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
-                        />
+                        <div className="relative">
+                           <input
+                              type={isPasswordVisible ? 'text' : 'password'}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                              className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none pr-20"
+                              style={{ width: '25rem' }} // Set a custom width using inline style
+                           />
+                           <div
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-white " // Adjusted the position of the text
+                              onClick={togglePasswordVisibility}
+                           >
+                              {isPasswordVisible ? 'Hide' : 'Show'}
+                           </div>
+                        </div>
                      </div>
-                     {error && <p className="text-red-500">{error}</p>}
+
+                     {error && <p className="text-black">{error}</p>}
                      <div className="flex flex-row gap-3">
                         <button
                            type="submit"

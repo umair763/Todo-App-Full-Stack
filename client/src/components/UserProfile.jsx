@@ -132,15 +132,21 @@ function UserProfile({ setlogin }) {
             <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
                Email: {userDetails.email}
             </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Gender: {userDetails.gender}
-            </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Occupation: {userDetails.occupation}
-            </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Organization: {userDetails.organization}
-            </p>
+            {userDetails.gender && (
+               <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+                  Gender: {userDetails.gender}
+               </p>
+            )}
+            {userDetails.occupation && (
+               <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+                  Occupation: {userDetails.occupation}
+               </p>
+            )}
+            {userDetails.organization && (
+               <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+                  Organization: {userDetails.organization}
+               </p>
+            )}
 
             <button
                onClick={handleLogout}
