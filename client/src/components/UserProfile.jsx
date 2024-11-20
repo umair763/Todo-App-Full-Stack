@@ -22,7 +22,7 @@ function UserProfile({ setlogin }) {
             }
 
             const response = await fetch('http://localhost:5000/api/users/profile', {
-            // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+               // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -59,7 +59,36 @@ function UserProfile({ setlogin }) {
       localStorage.removeItem('token');
       setlogin(false);
    };
+   const handleDeleteAccount = async () => {
+      try {
+         const token = localStorage.getItem('token');
+         if (!token) {
+            throw new Error('No token found');
+         }
 
+         // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/delete-account', {
+         const response = await fetch('http://localhost:5000/api/users/delete-account', {
+            method: 'DELETE',
+            headers: {
+               Authorization: `Bearer ${token}`,
+               'Content-Type': 'application/json',
+            },
+         });
+
+         if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+         }
+
+         // Clear local storage and logout user
+         localStorage.removeItem('token');
+         setlogin(false);
+
+         alert('Account deleted successfully!');
+      } catch (err) {
+         console.log(`Failed to delete account: ${err.message}`);
+      }
+   };
    if (loading) {
       return (
          <>
@@ -148,12 +177,20 @@ function UserProfile({ setlogin }) {
                </p>
             )}
 
-            <button
-               onClick={handleLogout}
-               className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
-            >
-               Logout
-            </button>
+            <div className="flex justify-between mt-4">
+               <button
+                  onClick={handleLogout}
+                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-full transition-colors duration-300"
+               >
+                  Logout
+               </button>
+               <button
+                  onClick={handleDeleteAccount}
+                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-full transition-colors duration-300"
+               >
+                  Delete Account
+               </button>
+            </div>
          </div>
       </div>
    );

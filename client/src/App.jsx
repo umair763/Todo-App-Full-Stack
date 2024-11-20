@@ -191,6 +191,9 @@ function App() {
                </div>
             </div>
          )}
+         <footer className="fixed bottom-0 left-0 w-full text-center py-2 bg-emerald-500 text-white">
+            &copy; {new Date().getFullYear()} Muhammad Umair. All rights reserved.
+         </footer>
       </>
    );
 }

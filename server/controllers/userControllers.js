@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/userModel");
+const Task = require("../models/taskModel"); // Ensure Task is imported
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -197,5 +198,33 @@ exports.profile = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ message: "Error fetching user profile", error: error.message });
+    }
+};
+
+// Delete Account Controller
+exports.deleteAcc = async (req, res) => {
+    try {
+        const userId = req.user; // Extract user ID from the JWT
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized: User ID not found in request" });
+        }
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Delete all tasks associated with the user
+        await Task.deleteMany({ user: userId }); // Ensure it uses the `user` field
+
+        // Delete the user
+        await User.findByIdAndDelete(userId);
+
+        return res.status(200).json({ message: "User and associated tasks deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting account:", error);
+        return res.status(500).json({ message: "Failed to delete account", error: error.message });
     }
 };
