@@ -21,8 +21,8 @@ function UserProfile({ setlogin }) {
                throw new Error('No token found');
             }
 
-            const response = await fetch('http://localhost:5000/api/users/profile', {
-               // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
+            // const response = await fetch('http://localhost:5000/api/users/profile', {
+            const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${token}`,
@@ -66,8 +66,8 @@ function UserProfile({ setlogin }) {
             throw new Error('No token found');
          }
 
-         // const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/delete-account', {
-         const response = await fetch('http://localhost:5000/api/users/delete-account', {
+         // const response = await fetch('http://localhost:5000/api/users/delete-account', {
+         const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/delete-account', {
             method: 'DELETE',
             headers: {
                Authorization: `Bearer ${token}`,
