@@ -11,6 +11,11 @@ function Registeruser() {
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
+   const [isPasswordVisible, setPasswordVisible] = useState(false);
+
+   const togglePasswordVisibility = () => {
+      setPasswordVisible(!isPasswordVisible);
+   };
 
    const handlepictureUpload = (e) => {
       if (e.target.files && e.target.files[0]) {
@@ -114,14 +119,23 @@ function Registeruser() {
                   />
                </div>
                <div className="flex flex-col justify-center mb-2 font-bold">
-                  <label className="pt-4 ">Password</label>
-                  <input
-                     type="password"
-                     value={password}
-                     onChange={(e) => setPassword(e.target.value)}
-                     required
-                     className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
-                  />
+                  <label className="pt-5 pb-3">Password</label>
+                  <div className="relative">
+                     <input
+                        type={isPasswordVisible ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none pr-20"
+                        style={{ width: '25rem' }} // Set a custom width using inline style
+                     />
+                     <div
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-white " // Adjusted the position of the text
+                        onClick={togglePasswordVisibility}
+                     >
+                        {isPasswordVisible ? 'Hide' : 'Show'}
+                     </div>
+                  </div>
                </div>
                <div className="flex flex-col justify-center mb-2 font-bold">
                   <label className="pt-4 ">Profile Picture</label>

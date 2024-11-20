@@ -158,7 +158,8 @@ function App() {
             <LoginForm setlogin={setlogin} />
          ) : (
             <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
-               <div className="w-full max-w-7xl p-5 rounded-xl shadow-lg bg-gradient-to-br from-[#9406E6] to-[#00FFFF] grid grid-cols-1 md:grid-cols-[1.5fr,1fr] lg:grid-cols-[1.5fr,1fr] gap-4">
+               <div className="w-11/12  p-5 rounded-xl shadow-lg bg-gradient-to-br from-[#9406E6] to-[#00FFFF] grid grid-cols-1 md:grid-cols-[1.5fr,1fr] lg:grid-cols-[1.5fr,1fr] gap-4">
+
                   <div className="div-1">
                      <div className="text">
                         <h1 className="text-4xl text-white font-extrabold mb-4">Todo App</h1>
@@ -191,6 +192,9 @@ function App() {
                </div>
             </div>
          )}
+         <footer className="fixed bottom-0 left-0 w-full text-center py-2 bg-emerald-500 text-white">
+            &copy; {new Date().getFullYear()} Muhammad Umair. All rights reserved.
+         </footer>
       </>
    );
 }

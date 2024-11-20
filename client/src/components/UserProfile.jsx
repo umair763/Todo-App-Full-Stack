@@ -8,8 +8,12 @@ function UserProfile({ setlogin }) {
       occupation: '',
       organization: '',
    });
+
+
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
+
+
    useEffect(() => {
       const fetchUserProfile = async () => {
          try {
@@ -17,6 +21,7 @@ function UserProfile({ setlogin }) {
             if (!token) {
                throw new Error('No token found');
             }
+
             // const response = await fetch('http://localhost:5000/api/users/profile', {
             const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                method: 'GET',
@@ -25,10 +30,13 @@ function UserProfile({ setlogin }) {
                   'Content-Type': 'application/json',
                },
             });
+
             if (!response.ok) {
                const errorData = await response.json();
                throw new Error(`Error fetching profile: ${errorData.message}`);
             }
+
+
             const data = await response.json();
             setUserDetails({
                username: data.username,
@@ -45,11 +53,45 @@ function UserProfile({ setlogin }) {
             setTimeout(() => setLoading(false), 1000);
          }
       };
+
+
+
       fetchUserProfile();
    }, []);
    const handleLogout = () => {
       localStorage.removeItem('token');
       setlogin(false);
+   };
+
+   const handleDeleteAccount = async () => {
+      try {
+         const token = localStorage.getItem('token');
+         if (!token) {
+            throw new Error('No token found');
+         }
+
+         // const response = await fetch('http://localhost:5000/api/users/delete-account', {
+         const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/delete-account', {
+            method: 'DELETE',
+            headers: {
+               Authorization: `Bearer ${token}`,
+               'Content-Type': 'application/json',
+            },
+         });
+
+         if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+         }
+
+         // Clear local storage and logout user
+         localStorage.removeItem('token');
+         setlogin(false);
+
+         alert('Account deleted successfully!');
+      } catch (err) {
+         console.log(`Failed to delete account: ${err.message}`);
+      }
    };
    if (loading) {
       return (
@@ -57,8 +99,11 @@ function UserProfile({ setlogin }) {
             <div class="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
                {/* <!-- Scan line --> */}
                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
+
+
                {/* <!-- Glowing border --> */}
                <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
+
                {/* <!-- Loading text --> */}
                <div class="relative z-10 text-white text-lg font-semibold">Fetching Profile...</div>
             </div>
@@ -85,6 +130,7 @@ function UserProfile({ setlogin }) {
                      .animate-scan {
                         animation: scan 2s infinite linear;
                      }
+
                      .animate-glow {
                         animation: glow 3s infinite ease-in-out;
                      }
@@ -94,9 +140,12 @@ function UserProfile({ setlogin }) {
          </>
       );
    }
+
+
    if (error) {
       return <div>{error}</div>;
    }
+
    return (
       <div className="container mx-auto p-3 max-w-6xl">
          <div className="flex justify-center mb-8">
@@ -115,21 +164,36 @@ function UserProfile({ setlogin }) {
             <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
                Email: {userDetails.email}
             </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Gender: {userDetails.gender}
-            </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Occupation: {userDetails.occupation}
-            </p>
-            <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
-               Organization: {userDetails.organization}
-            </p>
-            <button
-               onClick={handleLogout}
-               className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300"
-            >
-               Logout
-            </button>
+            {userDetails.gender && (
+               <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+                  Gender: {userDetails.gender}
+               </p>
+            )}
+            {userDetails.occupation && (
+               <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+                  Occupation: {userDetails.occupation}
+               </p>
+            )}
+            {userDetails.organization && (
+               <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
+                  Organization: {userDetails.organization}
+               </p>
+            )}
+
+            <div className="flex justify-between mt-4">
+               <button
+                  onClick={handleLogout}
+                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-full transition-colors duration-300"
+               >
+                  Logout
+               </button>
+               <button
+                  onClick={handleDeleteAccount}
+                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-full transition-colors duration-300"
+               >
+                  Delete Account
+               </button>
+            </div>
          </div>
       </div>
    );

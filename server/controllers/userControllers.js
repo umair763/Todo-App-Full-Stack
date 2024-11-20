@@ -1,13 +1,72 @@
+const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const User = require("../models/userModel");
+const { OAuth2Client } = require("google-auth-library");
+const User = require("../models/userModel");
+const Task = require("../models/taskModel"); // Ensure Task is imported
 
-const SALT_ROUNDS = 10;
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+const oauthClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+// Google Sign-In Handler// Google Sign-In Handler
+// Required for fetching images
+const fetch = require("node-fetch");
+
+// Google Sign-In Handler
+exports.googleSignIn = async (req, res) => {
+    const { name, email, picture } = req.body;
+
+    if (!name || !email || !picture) {
+        return res.status(400).json({ error: "Missing required fields (name, email, picture)" });
+    }
+
+    try {
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Fetch picture and convert to base64
+            const response = await fetch(picture);
+            const imageBuffer = await response.buffer();
+            const base64Picture = imageBuffer.toString("base64");
+
+            // Create new user
+            user = new User({
+                username: name,
+                gender: "",
+                occupation: "",
+                organization: "",
+                email: email,
+                password: await bcrypt.hash("tempPassword123", 10),
+                picture: base64Picture,
+            });
+
+            await user.save();
+        }
+
+        const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
+
+        return res.status(200).json({
+            message: "User authenticated successfully",
+            token: jwtToken,
+            user: {
+                username: user.username,
+                email: user.email,
+                picture: user.picture,
+            },
+        });
+    } catch (error) {
+        console.error("Error during Google sign-in:", error);
+        return res.status(500).json({ error: "Failed to authenticate user" });
+    }
+};
 
 // Set file size limit to 1
 const MAX_SIZE = 1024 * 1024 * 1024 * 1024; // 1GB in bytes
+const SALT_ROUNDS = 10; // Number of salt rounds for bcrypt
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -20,7 +79,6 @@ const upload = multer({
         cb(null, true);
     },
 });
-
 // User registration
 exports.registerUser = [
     upload.single("picture"), // Handle image uploads
@@ -142,5 +200,33 @@ exports.profile = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ message: "Error fetching user profile", error: error.message });
+    }
+};
+
+// Delete Account Controller
+exports.deleteAcc = async (req, res) => {
+    try {
+        const userId = req.user; // Extract user ID from the JWT
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized: User ID not found in request" });
+        }
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Delete all tasks associated with the user
+        await Task.deleteMany({ user: userId }); // Ensure it uses the `user` field
+
+        // Delete the user
+        await User.findByIdAndDelete(userId);
+
+        return res.status(200).json({ message: "User and associated tasks deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting account:", error);
+        return res.status(500).json({ message: "Failed to delete account", error: error.message });
     }
 };

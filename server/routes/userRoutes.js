@@ -1,10 +1,13 @@
 const express = require("express");
-const { registerUser, loginUser, profile } = require("../controllers/userControllers");
+const { deleteAcc, googleSignIn, registerUser, loginUser, profile } = require("../controllers/userControllers");
 const authenticator = require("../middleware/auth");
+
 const router = express.Router();
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.get("/profile", authenticator, profile); // Protect the profile route with authenticator middleware
+router.post("/google-signin", googleSignIn); // Google Sign-In API
+router.post("/register", registerUser); // Manual registration
+router.post("/login", loginUser); // Login API
+router.get("/profile", authenticator, profile); // Fetch user profile
+router.delete("/delete-account", authenticator, deleteAcc);
 
 module.exports = router;

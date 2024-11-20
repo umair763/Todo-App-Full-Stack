@@ -17,7 +17,7 @@ function DeleteTaskForm({ tasks, setisDeleteFormVisible, deleteTask }) {
    return (
       <>
          <form
-            className="addtask-form2 grid gap-1 grid-cols-1 p-4 mx-auto mt-6 rounded-xl shadow-lg w-full max-w-sm bg-[#E65D41] text-white"
+            className="grid gap-1 grid-cols-1 p-4 mx-auto mt-6 rounded-xl shadow-lg w-full max-w-sm bg-[#E65D41] text-white"
             onSubmit={handleform}
          >
             <div className="grid grid-cols-2 gap-1 items-center">

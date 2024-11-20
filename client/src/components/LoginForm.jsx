@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Registeruser from './Registeruser';
+import GoogleSignIn from './GoogleSignIn';
 
 function LoginForm({ setlogin }) {
    const [showRegister, setShowRegister] = useState(false);
@@ -7,6 +8,11 @@ function LoginForm({ setlogin }) {
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(true); // Add loading state
+   const [isPasswordVisible, setPasswordVisible] = useState(false);
+
+   const togglePasswordVisibility = () => {
+      setPasswordVisible(!isPasswordVisible);
+   };
 
    // Remove token when the page is closed
    useEffect(() => {
@@ -28,6 +34,7 @@ function LoginForm({ setlogin }) {
          if (token) {
             try {
                // Validate the token with the backend
+               // const response = await fetch('http://localhost:5000/api/users/profile', {
                const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/profile', {
                   method: 'GET',
                   headers: {
@@ -59,8 +66,9 @@ function LoginForm({ setlogin }) {
       setError('');
 
       try {
-            // const response = await fetch('http://localhost:5000/api/users/login', {
-            const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
+
+         // const response = await fetch('http://localhost:5000/api/users/login', {
+         const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -84,8 +92,9 @@ function LoginForm({ setlogin }) {
    if (loading) {
       return (
          <>
-            <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-6">
-               <div className="relative w-full h-[500px] flex items-center justify-center rounded-md overflow-hidden">
+
+            <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
+               <div className="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
                   {/* Scan line */}
                   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
 
@@ -125,7 +134,8 @@ function LoginForm({ setlogin }) {
                      .animate-glow {
                         animation: glow 3s infinite ease-in-out;
                      }
-       style      }
+
+                  }
                `}
             </style>
          </>
@@ -161,15 +171,25 @@ function LoginForm({ setlogin }) {
                      </div>
                      <div className="flex flex-col justify-center mb-2 font-bold">
                         <label className="pt-5 pb-3">Password</label>
-                        <input
-                           type="password"
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}
-                           required
-                           className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none"
-                        />
+                        <div className="relative">
+                           <input
+                              type={isPasswordVisible ? 'text' : 'password'}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                              className="border-b border-white bg-transparent text-white-100 font-caros-light focus:outline-none pr-20"
+                              style={{ width: '25rem' }} // Set a custom width using inline style
+                           />
+                           <div
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-white " // Adjusted the position of the text
+                              onClick={togglePasswordVisibility}
+                           >
+                              {isPasswordVisible ? 'Hide' : 'Show'}
+                           </div>
+                        </div>
                      </div>
-                     {error && <p className="text-red-500">{error}</p>}
+
+                     {error && <p className="text-black">{error}</p>}
                      <div className="flex flex-row gap-3">
                         <button
                            type="submit"
@@ -184,6 +204,8 @@ function LoginForm({ setlogin }) {
                         >
                            Register
                         </button>
+
+                        <GoogleSignIn setlogin={setlogin} />
                      </div>
                   </form>
                </>
