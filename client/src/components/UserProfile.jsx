@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 function UserProfile({ setlogin }) {
    const [userDetails, setUserDetails] = useState({
       username: '',
@@ -9,10 +10,8 @@ function UserProfile({ setlogin }) {
       organization: '',
    });
 
-
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
-
 
    useEffect(() => {
       const fetchUserProfile = async () => {
@@ -36,7 +35,6 @@ function UserProfile({ setlogin }) {
                throw new Error(`Error fetching profile: ${errorData.message}`);
             }
 
-
             const data = await response.json();
             setUserDetails({
                username: data.username,
@@ -54,15 +52,13 @@ function UserProfile({ setlogin }) {
          }
       };
 
-
-
       fetchUserProfile();
    }, []);
+
    const handleLogout = () => {
       localStorage.removeItem('token');
       setlogin(false);
    };
-
    const handleDeleteAccount = async () => {
       try {
          const token = localStorage.getItem('token');
@@ -100,7 +96,6 @@ function UserProfile({ setlogin }) {
                {/* <!-- Scan line --> */}
                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent animate-scan"></div>
 
-
                {/* <!-- Glowing border --> */}
                <div class="absolute top-0 left-0 w-full h-full border-2 border-transparent rounded-md animate-glow"></div>
 
@@ -118,6 +113,7 @@ function UserProfile({ setlogin }) {
                            transform: translateY(100%);
                         }
                      }
+
                      @keyframes glow {
                         0%,
                         100% {
@@ -127,6 +123,7 @@ function UserProfile({ setlogin }) {
                            box-shadow: 0 10px 10px rgb(255, 255, 255);
                         }
                      }
+
                      .animate-scan {
                         animation: scan 2s infinite linear;
                      }
@@ -140,7 +137,6 @@ function UserProfile({ setlogin }) {
          </>
       );
    }
-
 
    if (error) {
       return <div>{error}</div>;
@@ -157,6 +153,7 @@ function UserProfile({ setlogin }) {
                )}
             </div>
          </div>
+
          <div className="bg-[#9df7f7] p-3 rounded-xl shadow-lg">
             <p className="font-caros-light text-sm md:text-base sm:text-base lg:text-md mb-2 rounded-lg text-[#1D1D1D] bg-white p-2 break-words">
                Name: {userDetails.username}
@@ -198,4 +195,5 @@ function UserProfile({ setlogin }) {
       </div>
    );
 }
+
 export default UserProfile;

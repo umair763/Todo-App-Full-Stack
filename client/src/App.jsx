@@ -25,7 +25,7 @@ function App() {
             }
 
             // const response = await fetch('http://localhost:5000/api/tasks', {
-               const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
+            const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
                headers: {
                   Authorization: `Bearer ${token}`, // Ensure 'Bearer' is included
                },
@@ -63,7 +63,7 @@ function App() {
 
    function handleAddNewTasks(task) {
       // fetch('http://localhost:5000/api/tasks', {
-         fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
+      fetch('https://todo-app-full-stack-opal.vercel.app/api/tasks', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function App() {
    const handleDeleteTask = async (taskId) => {
       try {
          // const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
-            const response = await fetch(`https://todo-app-full-stack-opal.vercel.app/api/tasks/${taskId}`, {
+         const response = await fetch(`https://todo-app-full-stack-opal.vercel.app/api/tasks/${taskId}`, {
             // Add `/tasks/` before taskId
             method: 'DELETE',
             headers: {
@@ -159,7 +159,6 @@ function App() {
          ) : (
             <div className="min-h-screen bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center p-4">
                <div className="w-11/12  p-5 rounded-xl shadow-lg bg-gradient-to-br from-[#9406E6] to-[#00FFFF] grid grid-cols-1 md:grid-cols-[1.5fr,1fr] lg:grid-cols-[1.5fr,1fr] gap-4">
-
                   <div className="div-1">
                      <div className="text">
                         <h1 className="text-4xl text-white font-extrabold mb-4">Todo App</h1>
@@ -193,7 +192,7 @@ function App() {
             </div>
          )}
          <footer className="fixed bottom-0 left-0 w-full text-center py-2 bg-emerald-500 text-white">
-            &copy; {new Date().getFullYear()} Muhammad Umair. All rights reserved.
+            &copy; {new Date().getFullYear()} All rights reserved.
          </footer>
       </>
    );

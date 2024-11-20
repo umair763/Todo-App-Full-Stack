@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
 import Registeruser from './Registeruser';
 import GoogleSignIn from './GoogleSignIn';
 
@@ -66,7 +67,6 @@ function LoginForm({ setlogin }) {
       setError('');
 
       try {
-
          // const response = await fetch('http://localhost:5000/api/users/login', {
          const response = await fetch('https://todo-app-full-stack-opal.vercel.app/api/users/login', {
             method: 'POST',
@@ -92,7 +92,6 @@ function LoginForm({ setlogin }) {
    if (loading) {
       return (
          <>
-
             <div className="min-h-screen w-full bg-gradient-to-br from-[#0172af] to-[#74febd] flex justify-center items-center">
                <div className="relative w-full h-[300px] flex items-center justify-center rounded-md overflow-hidden">
                   {/* Scan line */}
@@ -134,7 +133,6 @@ function LoginForm({ setlogin }) {
                      .animate-glow {
                         animation: glow 3s infinite ease-in-out;
                      }
-
                   }
                `}
             </style>
@@ -204,7 +202,6 @@ function LoginForm({ setlogin }) {
                         >
                            Register
                         </button>
-
                         <GoogleSignIn setlogin={setlogin} />
                      </div>
                   </form>

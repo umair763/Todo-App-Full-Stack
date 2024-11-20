@@ -23,7 +23,10 @@ function GoogleSignIn({ setlogin }) {
 
          // Send user data to backend to create user and generate JWT
          // const backendResponse = await axios.post('http://localhost:5000/api/users/google-signin', userData);
-         const backendResponse = await axios.post('https://todo-app-full-stack-opal.vercel.app/api/users/google-signin', userData);
+         const backendResponse = await axios.post(
+            'https://todo-app-full-stack-opal.vercel.app/api/users/google-signin',
+            userData
+         );
 
          // console.log('User saved successfully:', backendResponse.data);
 
@@ -42,7 +45,7 @@ function GoogleSignIn({ setlogin }) {
    };
 
    return (
-      <div className='pt-2'>
+      <div className="pt-2">
          <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginFailure} />
       </div>
    );

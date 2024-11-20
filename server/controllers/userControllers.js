@@ -1,8 +1,6 @@
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const User = require("../models/userModel");
 const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/userModel");
 const Task = require("../models/taskModel"); // Ensure Task is imported
