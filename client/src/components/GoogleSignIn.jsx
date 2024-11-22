@@ -45,7 +45,7 @@ function GoogleSignIn({ setlogin }) {
    };
 
    return (
-      <div className="pt-2">
+      <div className="pt-1">
          <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginFailure} />
       </div>
    );
