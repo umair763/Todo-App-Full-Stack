@@ -40,10 +40,10 @@ function AddTaskForm({ SetisAddFormVisible, addTask }) {
             className="addtask-form grid gap-1 p-2 mx-auto mt-6 rounded-xl shadow-lg w-full max-w-sm bg-teal-500 text-white"
             onSubmit={handleform}
          >
-            <div className="grid grid-cols-2 gap-1 items-center">
-               <label className="text-sm">Choose color</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+               <label className="text-sm md:text-base">Choose color</label>
                <select
-                  className="addentrysortby bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm p-1"
+                  className="addentrysortby bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm md:text-base p-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                   onChange={(e) => setColor(e.target.value)}
                >
                   <option>set color</option>
@@ -52,24 +52,24 @@ function AddTaskForm({ SetisAddFormVisible, addTask }) {
                   <option>green</option>
                </select>
 
-               <label className="text-sm">Write task</label>
+               <label className="text-sm md:text-base">Write task</label>
                <input
                   type="text"
-                  className="writeTask bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm p-1 outline-none"
+                  className="writeTask bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm md:text-base p-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                   onChange={(e) => setTask(e.target.value)}
                />
 
-               <label className="text-sm">Set Date</label>
+               <label className="text-sm md:text-base">Set Date</label>
                <input
                   type="date"
-                  className="settime bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm p-1"
+                  className="settime bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm md:text-base p-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                   onChange={(e) => setDate(convertToDateFormat(e.target.value))}
                />
 
-               <label className="text-sm">Set time</label>
+               <label className="text-sm md:text-base">Set time</label>
                <input
                   type="time"
-                  className="settime bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm p-1"
+                  className="settime bg-teal-200 border-2 border-teal-600 rounded-lg text-gray-900 text-sm md:text-base p-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                   onChange={(e) => setTime(convertTo12HourFormat(e.target.value))}
                />
             </div>
