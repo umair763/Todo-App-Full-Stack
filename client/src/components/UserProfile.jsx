@@ -177,16 +177,16 @@ function UserProfile({ setlogin }) {
                </p>
             )}
 
-            <div className="flex justify-between mt-4">
+            <div className="flex flex-col md:flex-row justify-between gap-3 md:gap-6 mt-4">
                <button
                   onClick={handleLogout}
-                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-full transition-colors duration-300"
+                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full transition-colors duration-300 text-sm md:text-base"
                >
                   Logout
                </button>
                <button
                   onClick={handleDeleteAccount}
-                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-full transition-colors duration-300"
+                  className="font-caros-light bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full transition-colors duration-300 text-sm md:text-base"
                >
                   Delete Account
                </button>
